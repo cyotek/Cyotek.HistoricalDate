@@ -115,7 +115,7 @@ namespace Cyotek
         throw new ArgumentOutOfRangeException(nameof(month), month, "Month is not valid.");
       }
 
-      if (day < 1 || day > JulianDate.GetDaysInMonth(month, year))
+      if (day < 1 || day > JulianDate.GetDaysInMonth(month, year, era))
       {
         throw new ArgumentOutOfRangeException(nameof(day), day, "Day is not valid.");
       }
@@ -142,7 +142,7 @@ namespace Cyotek
       get
       {
         return _year > 0 && _month > 0 && _day > 0
-          ? JulianDate.IsLeapYear(_year)
+          ? JulianDate.IsLeapYear(_year, _era)
             ? _daysToMonth366[_month - 1] + _day
             : _daysToMonth365[_month - 1] + _day
           : 0;
@@ -179,7 +179,7 @@ namespace Cyotek
 
     #region Public Methods
 
-    public static int DaysInMonth(long year, int month)
+    public static int DaysInMonth(long year, int month, JulianEra era)
     {
       int[] days;
 
@@ -188,7 +188,7 @@ namespace Cyotek
         throw new ArgumentOutOfRangeException(nameof(month), month, "Invalid month.");
       }
 
-      days = JulianDate.IsLeapYear(year)
+      days = JulianDate.IsLeapYear(year, era)
         ? _daysToMonth366
         : _daysToMonth365;
 
@@ -225,7 +225,7 @@ namespace Cyotek
 
         if (dayOfYear != 0)
         {
-          JulianDate.MonthFromDayOfYear(year, dayOfYear, out int month, out int day);
+          JulianDate.MonthFromDayOfYear(year, dayOfYear, era, out int month, out int day);
 
           result = new JulianDate(year, month, day, era);
         }
@@ -242,17 +242,45 @@ namespace Cyotek
       return result;
     }
 
-    /// <summary>
-    /// Determines if the specified year is a leap year.
-    /// </summary>
-    /// <returns></returns>
-    /// <param name="year">Year to test.</param>
-    public static bool IsLeapYear(long year)
+    /// <summary> Determines if the specified year is a leap year. </summary>
+    /// <param name="year"> Year to test. </param>
+    /// <param name="era">  Era of the year to test. </param>
+    /// <returns> True if leap year, false if not. </returns>
+    public static bool IsLeapYear(long year, JulianEra era)
     {
-      // not divisible by 4? not a leap year
-      // divisible by 4 and not divisible by 100? always a leap year
-      // divisible by 4 and 100? Only a leap year if also divisible by 400
-      return year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
+      bool result;
+
+      /*
+       * The Julian calendar has 1 leap year every 4 years:
+       *
+       * Every year divisible by 4 is a leap year.
+       *
+       * However, the 4-year rule was not followed in the first years after the
+       * introduction of the Julian calendar in 45 BC. Due to a counting error,
+       * every 3rd year was a leap year in the first years of this calendar’s
+       * existence. The leap years were:
+       *
+       * 45 BC, 42 BC, 39 BC, 36 BC, 33 BC, 30 BC, 27 BC, 24 BC, 21 BC, 18 BC,
+       * 15 BC, 12 BC, 9 BC, AD 8, AD 12, and every 4th year from then on.
+       *
+       * Authorities disagree about whether 45 BC was a leap year or not.
+       *
+       * https://www.tondering.dk/claus/cal/julian.php
+       */
+
+      switch (era)
+      {
+        case JulianEra.Ad when year >= 8 && year % 4 == 0:
+        case JulianEra.Bc when year >= 9 && year <= 45 && year % 3 == 0:
+          result = true;
+          break;
+
+        default:
+          result = false;
+          break;
+      }
+
+      return result;
     }
 
     public static HistoricalTimeSpan operator -(JulianDate d1, JulianDate d2)
@@ -290,7 +318,7 @@ namespace Cyotek
             {
               int days;
 
-              days = JulianDate.DaysInMonth(year, month);
+              days = JulianDate.DaysInMonth(year, month, JulianEra.Ad);
 
               day = days + day;
               month--;
@@ -526,21 +554,19 @@ namespace Cyotek
     /// <returns>The days in month.</returns>
     /// <param name="month">Month.</param>
     /// <param name="year">Year.</param>
-    private static int GetDaysInMonth(int month, int year)
+    private static int GetDaysInMonth(int month, int year, JulianEra era)
     {
-      return DateTime.DaysInMonth(
-          JulianDate.IsLeapYear(year) ? _leapYear : _nonLeapYear,
-          month
+      return DateTime.DaysInMonth(JulianDate.IsLeapYear(year, era) ? _leapYear : _nonLeapYear, month
       );
     }
 
-    private static void MonthFromDayOfYear(int year, int dayOfYear, out int month, out int day)
+    private static void MonthFromDayOfYear(int year, int dayOfYear, JulianEra era, out int month, out int day)
     {
       if (dayOfYear > 0)
       {
         int[] days;
 
-        days = JulianDate.IsLeapYear(year)
+        days = JulianDate.IsLeapYear(year, era)
             ? _daysToMonth366
             : _daysToMonth365;
 

@@ -60,16 +60,16 @@ namespace Cyotek.HistoricalDate.Tests
         {
           for (int month = 1; month <= 12; month++)
           {
-            int days;
+            int expected;
 
-            days = DateTime.DaysInMonth(2021, month);
+            expected = DateTime.DaysInMonth(2021, month);
 
             if (year == 2024 && month == 2)
             {
-              days++;
+              expected++;
             }
 
-            yield return new TestCaseData(year, month, days).SetName("{m}" + month.ToString("00") + suffix);
+            yield return new TestCaseData(year, month, JulianEra.Ad, expected).SetName("{m}" + month.ToString("00") + suffix);
           }
 
           suffix = "Leap";
@@ -494,13 +494,13 @@ namespace Cyotek.HistoricalDate.Tests
 
     [Test]
     [TestCaseSource(nameof(DaysInMonthTestData))]
-    public void DaysInMonthTestCases(int year, int month, int expected)
+    public void DaysInMonthTestCases(int year, int month, JulianEra era, int expected)
     {
       // arrange
       int actual;
 
       // act
-      actual = JulianDate.DaysInMonth(year, month);
+      actual = JulianDate.DaysInMonth(year, month, era);
 
       // assert
       Assert.AreEqual(expected, actual);
@@ -707,37 +707,66 @@ namespace Cyotek.HistoricalDate.Tests
     }
 
     [Test]
-    [TestCase(100)]
-    [TestCase(1585)]
-    [TestCase(1589)]
-    [TestCase(1593)]
-    [TestCase(1597)]
-    [TestCase(1601)]
-    public void IsLeapYearNegativeTestCases(int year)
+    [TestCase(44, JulianEra.Bc)]
+    [TestCase(41, JulianEra.Bc)]
+    [TestCase(38, JulianEra.Bc)]
+    [TestCase(35, JulianEra.Bc)]
+    [TestCase(32, JulianEra.Bc)]
+    [TestCase(29, JulianEra.Bc)]
+    [TestCase(26, JulianEra.Bc)]
+    [TestCase(23, JulianEra.Bc)]
+    [TestCase(20, JulianEra.Bc)]
+    [TestCase(17, JulianEra.Bc)]
+    [TestCase(14, JulianEra.Bc)]
+    [TestCase(6, JulianEra.Bc)]
+    [TestCase(3, JulianEra.Bc)]
+    [TestCase(7, JulianEra.Ad)]
+    [TestCase(11, JulianEra.Ad)]
+    [TestCase(1585, JulianEra.Ad)]
+    [TestCase(1589, JulianEra.Ad)]
+    [TestCase(1593, JulianEra.Ad)]
+    [TestCase(1597, JulianEra.Ad)]
+    [TestCase(1601, JulianEra.Ad)]
+    public void IsLeapYearNegativeTestCases(int year, JulianEra era)
     {
       // arrange
       bool actual;
 
       // act
-      actual = JulianDate.IsLeapYear(year);
+      actual = JulianDate.IsLeapYear(year, era);
 
       // assert
       Assert.IsFalse(actual);
     }
 
     [Test]
-    [TestCase(1584)]
-    [TestCase(1588)]
-    [TestCase(1592)]
-    [TestCase(1596)]
-    [TestCase(1600)]
-    public void IsLeapYearPositiveTestCases(int year)
+    [TestCase(45, JulianEra.Bc)]
+    [TestCase(42, JulianEra.Bc)]
+    [TestCase(39, JulianEra.Bc)]
+    [TestCase(36, JulianEra.Bc)]
+    [TestCase(33, JulianEra.Bc)]
+    [TestCase(30, JulianEra.Bc)]
+    [TestCase(27, JulianEra.Bc)]
+    [TestCase(24, JulianEra.Bc)]
+    [TestCase(21, JulianEra.Bc)]
+    [TestCase(18, JulianEra.Bc)]
+    [TestCase(15, JulianEra.Bc)]
+    [TestCase(12, JulianEra.Bc)]
+    [TestCase(9, JulianEra.Bc)]
+    [TestCase(8, JulianEra.Ad)]
+    [TestCase(12, JulianEra.Ad)]
+    [TestCase(1584, JulianEra.Ad)]
+    [TestCase(1588, JulianEra.Ad)]
+    [TestCase(1592, JulianEra.Ad)]
+    [TestCase(1596, JulianEra.Ad)]
+    [TestCase(1600, JulianEra.Ad)]
+    public void IsLeapYearPositiveTestCases(int year, JulianEra era)
     {
       // arrange
       bool actual;
 
       // act
-      actual = JulianDate.IsLeapYear(year);
+      actual = JulianDate.IsLeapYear(year, era);
 
       // assert
       Assert.IsTrue(actual);
