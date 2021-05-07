@@ -20,34 +20,16 @@ namespace Cyotek
 
     public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
     {
-      object result;
-
-      if (value is string s && !string.IsNullOrEmpty(s))
-      {
-        result = JulianDate.Parse(s);
-      }
-      else
-      {
-        result = null;
-      }
-
-      return result ?? base.ConvertFrom(context, culture, value);
+      return value is string s && !string.IsNullOrEmpty(s)
+        ? JulianDate.Parse(s)
+        : base.ConvertFrom(context, culture, value);
     }
 
     public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
     {
-      object result;
-
-      if (value is JulianDate date && destinationType == typeof(string))
-      {
-        result = date.ToString();
-      }
-      else
-      {
-        result = base.ConvertTo(context, culture, value, destinationType);
-      }
-
-      return result;
+      return value is JulianDate date && destinationType == typeof(string)
+        ? date.ToString()
+        : base.ConvertTo(context, culture, value, destinationType);
     }
 
     #endregion Public Methods

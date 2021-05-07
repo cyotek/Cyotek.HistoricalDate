@@ -201,12 +201,12 @@ namespace Cyotek
 
       if (ticks != 0)
       {
-        long absoluteYear;
+        int absoluteYear;
         int dayOfYear;
         int year;
         JulianEra era;
 
-        absoluteYear = ticks >> 32;
+        absoluteYear = (int)(ticks >> 32);
         dayOfYear = ((byte)((ticks & 0xFF000000) >> 24) << 24)
           | ((byte)((ticks & 0x00FF0000) >> 16) << 16)
           | ((byte)((ticks & 0x0000FF00) >> 8) << 8)
@@ -214,12 +214,12 @@ namespace Cyotek
 
         if (absoluteYear > 0)
         {
-          year = (int)absoluteYear;
+          year = absoluteYear;
           era = JulianEra.Ad;
         }
         else
         {
-          year = (int)-absoluteYear;
+          year = -absoluteYear;
           era = JulianEra.Bc;
         }
 
@@ -350,13 +350,13 @@ namespace Cyotek
 
     public static bool operator !=(JulianDate a, JulianDate b) => !a.Equals(b);
 
-    public static bool operator <(JulianDate a, JulianDate b) => a.CompareTo(b) == -1;
+    public static bool operator <(JulianDate a, JulianDate b) => a.CompareTo(b) < 0;
 
     public static bool operator <=(JulianDate a, JulianDate b) => a.CompareTo(b) <= 0;
 
     public static bool operator ==(JulianDate a, JulianDate b) => a.Equals(b);
 
-    public static bool operator >(JulianDate a, JulianDate b) => a.CompareTo(b) == 1;
+    public static bool operator >(JulianDate a, JulianDate b) => a.CompareTo(b) > 0;
 
     public static bool operator >=(JulianDate a, JulianDate b) => a.CompareTo(b) >= 0;
 
@@ -392,16 +392,11 @@ namespace Cyotek
 
       if (result == 0)
       {
-        int x;
-        int y;
+        long x;
+        long y;
 
-        x = _era == JulianEra.Ad
-          ? _year
-          : -_year;
-
-        y = other._era == JulianEra.Ad
-          ? other._year
-          : -other._year;
+        x = this.AbsoluteYears;
+        y = other.AbsoluteYears;
 
         result = x.CompareTo(y);
 
