@@ -1,6 +1,8 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Threading;
 
 namespace Cyotek.HistoricalDate.Tests
 {
@@ -203,19 +205,27 @@ namespace Cyotek.HistoricalDate.Tests
     {
       get
       {
-        yield return new TestCaseData("2021 BP", new JulianDate(2021, JulianEra.Bc)).SetName("{m}BeforePresent");
-        yield return new TestCaseData("2021 BC", new JulianDate(2021, JulianEra.Bc)).SetName("{m}Year");
-        yield return new TestCaseData("2021 AD", new JulianDate(2021, JulianEra.Ad)).SetName("{m}YearEra");
-        yield return new TestCaseData("January 2021 BC", new JulianDate(2021, 1, JulianEra.Bc)).SetName("{m}Month");
-        yield return new TestCaseData("30 January 2021 BC", new JulianDate(2021, 1, 30, JulianEra.Bc))
-          .SetName("{m}Day");
-        yield return new TestCaseData("30 January 2021", new JulianDate(2021, 1, 30, JulianEra.Ad)).SetName(
-          "{m}DayWithoutEra");
-        yield return new TestCaseData("January 2021", new JulianDate(2021, 1, JulianEra.Ad)).SetName(
-          "{m}MonthWithoutEra");
-        yield return new TestCaseData("2021-02-01", new JulianDate(2021, 2, 1, JulianEra.Ad)).SetName("{m}Iso");
-        yield return new TestCaseData("2021-02-01 BC", new JulianDate(2021, 2, 1, JulianEra.Bc)).SetName(
-          "{m}IsoWithEra");
+        yield return new TestCaseData(null, "2021 BP", new JulianDate(2021, JulianEra.Bc)).SetName("{m}BeforePresent");
+        yield return new TestCaseData(null, "2021 BC", new JulianDate(2021, JulianEra.Bc)).SetName("{m}Year");
+        yield return new TestCaseData(null, "2021 AD", new JulianDate(2021, JulianEra.Ad)).SetName("{m}YearEra");
+        yield return new TestCaseData(null, "January 2021 BC", new JulianDate(2021, 1, JulianEra.Bc)).SetName("{m}Month");
+        yield return new TestCaseData(null, "30 January 2021 BC", new JulianDate(2021, 1, 30, JulianEra.Bc)).SetName("{m}Day");
+        yield return new TestCaseData(null, "30 January 2021", new JulianDate(2021, 1, 30, JulianEra.Ad)).SetName("{m}DayWithoutEra");
+        yield return new TestCaseData(null, "January 2021", new JulianDate(2021, 1, JulianEra.Ad)).SetName("{m}MonthWithoutEra");
+        yield return new TestCaseData(null, "2021-02-01", new JulianDate(2021, 2, 1, JulianEra.Ad)).SetName("{m}Iso");
+        yield return new TestCaseData(null, "2021-02-01 BC", new JulianDate(2021, 2, 1, JulianEra.Bc)).SetName("{m}IsoWithEra");
+        yield return new TestCaseData(null, "Jan 2021 BC", new JulianDate(2021, 1, JulianEra.Bc)).SetName("{m}ShortMonth");
+        yield return new TestCaseData(null, "30 Jan 2021 BC", new JulianDate(2021, 1, 30, JulianEra.Bc)).SetName("{m}ShortMonthDay");
+        yield return new TestCaseData(null, "30 Jan 2021", new JulianDate(2021, 1, 30, JulianEra.Ad)).SetName("{m}ShortMonthDayWithoutEra");
+        yield return new TestCaseData(null, "Jan 2021", new JulianDate(2021, 1, JulianEra.Ad)).SetName("{m}ShortMonthWithoutEra");
+        yield return new TestCaseData("fr-FR", "janvier 2021 BC", new JulianDate(2021, 1, JulianEra.Bc)).SetName("{m}MonthFrench");
+        yield return new TestCaseData("fr-FR", "30 janvier 2021 BC", new JulianDate(2021, 1, 30, JulianEra.Bc)).SetName("{m}DayFrench");
+        yield return new TestCaseData("fr-FR", "30 janvier 2021", new JulianDate(2021, 1, 30, JulianEra.Ad)).SetName("{m}DayWithoutEraFrench");
+        yield return new TestCaseData("fr-FR", "janvier 2021", new JulianDate(2021, 1, JulianEra.Ad)).SetName("{m}MonthWithoutEraFrench");
+        yield return new TestCaseData("fr-FR", "janv. 2021 BC", new JulianDate(2021, 1, JulianEra.Bc)).SetName("{m}ShortMonthFrench");
+        yield return new TestCaseData("fr-FR", "30 janv. 2021 BC", new JulianDate(2021, 1, 30, JulianEra.Bc)).SetName("{m}ShortMonthDayFrench");
+        yield return new TestCaseData("fr-FR", "30 janv. 2021", new JulianDate(2021, 1, 30, JulianEra.Ad)).SetName("{m}ShortMonthDayWithoutEraFrench");
+        yield return new TestCaseData("fr-FR", "janv. 2021", new JulianDate(2021, 1, JulianEra.Ad)).SetName("{m}ShortMonthWithoutEraFrench");
       }
     }
 
@@ -819,10 +829,15 @@ namespace Cyotek.HistoricalDate.Tests
 
     [Test]
     [TestCaseSource(nameof(ParseTestData))]
-    public void ParseTestCases(string value, JulianDate expected)
+    public void ParseTestCases(string culture, string value, JulianDate expected)
     {
       // arrange
       JulianDate actual;
+
+      if (!string.IsNullOrEmpty(culture))
+      {
+        Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(culture);
+      }
 
       // act
       actual = JulianDate.Parse(value);

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 
 namespace Cyotek
@@ -7,23 +7,7 @@ namespace Cyotek
   {
     #region Private Fields
 
-    private static readonly char[] _dateSeparators = { ',', '.', '-', '/', '\\', ' ' };
-
-    private static readonly string[] _monthNames =
-    {
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December"
-    };
+    private static readonly char[] _dateSeparators = { '-', '/', '\\', ' ' };
 
     #endregion Private Fields
 
@@ -167,24 +151,47 @@ namespace Cyotek
 
     private static bool TryGetInt(string s, out int result)
     {
-      return int.TryParse(s, NumberStyles.Number, CultureInfo.InvariantCulture, out result);
+      return int.TryParse(s, NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out result);
+    }
+
+    private static bool TryGetMonth(string s, DateTimeFormatInfo format, out int month)
+    {
+      if (!JulianDateParser.TryGetMonth(s, format.MonthNames, out month)
+          && !JulianDateParser.TryGetMonth(s, format.AbbreviatedMonthNames, out month))
+      {
+        month = 0;
+      }
+
+      return month != 0;
+    }
+
+    private static bool TryGetMonth(string s, string[] names, out int month)
+    {
+      month = 0;
+
+      for (int i = 0; i < names.Length; i++)
+      {
+        if (string.Equals(s, names[i], StringComparison.InvariantCultureIgnoreCase))
+        {
+          month = i + 1;
+          break;
+        }
+      }
+
+      return month != 0;
     }
 
     private static bool TryGetMonth(string s, out int month)
     {
       if (!JulianDateParser.TryGetInt(s, out month))
       {
-        month = 0;
+        DateTimeFormatInfo format;
 
-        // TODO: Check globalised month names
+        format = DateTimeFormatInfo.InvariantInfo;
 
-        for (int i = 0; i < _monthNames.Length; i++)
+        if (!JulianDateParser.TryGetMonth(s, format, out month))
         {
-          if (string.Equals(s, _monthNames[i], StringComparison.InvariantCultureIgnoreCase))
-          {
-            month = i + 1;
-            break;
-          }
+          JulianDateParser.TryGetMonth(s, DateTimeFormatInfo.CurrentInfo, out month);
         }
       }
 
