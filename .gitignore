@@ -1,0 +1,16 @@
+.vs/
+releases/
+packages/
+bin/
+obj/
+NDependOut/
+_NCrunch_*/
+nuget/
+
+push.cmd
+
+*.ncrunchsolution
+*.ncrunchproject
+*.suo
+*.user
+res/optimizeimages.bat
