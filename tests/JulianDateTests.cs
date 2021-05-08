@@ -264,6 +264,8 @@ namespace Cyotek.HistoricalDate.Tests
         yield return new TestCaseData(null, "2021 BP", new JulianDate(2021, JulianEra.Bc)).SetName("{m}BeforePresent");
         yield return new TestCaseData(null, "2021 BC", new JulianDate(2021, JulianEra.Bc)).SetName("{m}Year");
         yield return new TestCaseData(null, "2021 AD", new JulianDate(2021, JulianEra.Ad)).SetName("{m}YearEra");
+        yield return new TestCaseData(null, "10000 AD", new JulianDate(10000, JulianEra.Ad)).SetName("{m}LongYear");
+        yield return new TestCaseData(null, "10,000 AD", new JulianDate(10000, JulianEra.Ad)).SetName("{m}LongSeparatedYear");
         yield return new TestCaseData(null, "January 2021 BC", new JulianDate(2021, 1, JulianEra.Bc)).SetName("{m}Month");
         yield return new TestCaseData(null, "30 January 2021 BC", new JulianDate(2021, 1, 30, JulianEra.Bc)).SetName("{m}Day");
         yield return new TestCaseData(null, "30 January 2021", new JulianDate(2021, 1, 30, JulianEra.Ad)).SetName("{m}DayWithoutEra");
@@ -316,8 +318,8 @@ namespace Cyotek.HistoricalDate.Tests
       {
         yield return new TestCaseData(JulianDate.Empty, string.Empty).SetName("{m}Empty");
         yield return new TestCaseData(new JulianDate(9999, JulianEra.Bc), "9999 BC").SetName("{m}BeforePresentPre");
-        yield return new TestCaseData(new JulianDate(10_001, JulianEra.Bc), "10001 BP").SetName("{m}BeforePresentPost");
-        yield return new TestCaseData(new JulianDate(10_000, JulianEra.Bc), "10000 BP").SetName("{m}BeforePresent");
+        yield return new TestCaseData(new JulianDate(10_001, JulianEra.Bc), "10,001 BP").SetName("{m}BeforePresentPost");
+        yield return new TestCaseData(new JulianDate(10_000, JulianEra.Bc), "10,000 BP").SetName("{m}BeforePresent");
         yield return new TestCaseData(new JulianDate(2021, JulianEra.Bc), "2021 BC").SetName("{m}Era");
         yield return new TestCaseData(new JulianDate(2021, JulianEra.Ad), "2021 AD").SetName("{m}Year");
         yield return new TestCaseData(new JulianDate(2021, 1, JulianEra.Ad), "2021-01 AD").SetName("{m}Month");

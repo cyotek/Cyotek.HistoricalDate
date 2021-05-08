@@ -25,6 +25,8 @@ namespace Cyotek
 
     private const int _leapYear = 2004;
 
+    private const int _maximumYearsBeforeSeparators = 9999;
+
     private const int _nonLeapYear = 2005;
 
     private static readonly int[] _daysToMonth365 =
@@ -565,7 +567,14 @@ namespace Cyotek
 
         sb = StringBuilderCache.Acquire(13);
 
-        sb.Append(_year.ToString(CultureInfo.InvariantCulture));
+        if (_year < -_maximumYearsBeforeSeparators || _year > _maximumYearsBeforeSeparators)
+        {
+          sb.Append(_year.ToString("N0", CultureInfo.InvariantCulture));
+        }
+        else
+        {
+          sb.Append(_year.ToString(CultureInfo.InvariantCulture));
+        }
 
         if (_month > 0)
         {
