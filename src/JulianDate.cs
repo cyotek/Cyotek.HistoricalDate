@@ -281,40 +281,8 @@ namespace Cyotek
       return result;
     }
 
-    public static HistoricalTimeSpan operator -(JulianDate d1, JulianDate d2)
-    {
-      long years;
-      int yearDays;
-      int d1RelativeYear;
-      int d2RelativeYear;
-      int leapDays;
-
-      years = d1.AbsoluteYear - d2.AbsoluteYear;
-      yearDays = d1.DayOfYear - d2.DayOfYear;
-      d1RelativeYear = d1.RelativeYear;
-      d2RelativeYear = d2.RelativeYear;
-      leapDays = 0;
-
-      if (d1RelativeYear >= -45 && d2RelativeYear >= -45) // TODO: Consider maximum years, don't need to enumerate 2billion numbers
-      {
-        for (int i = Math.Min(d1RelativeYear, d2RelativeYear); i < Math.Max(d1RelativeYear, d2RelativeYear); i++)
-        {
-          if (IsLeapYear(i, i > 0
-            ? JulianEra.Ad
-            : JulianEra.Bc))
-          {
-            leapDays++;
-          }
-        }
-
-        if (d1RelativeYear < d2RelativeYear)
-        {
-          leapDays = -leapDays;
-        }
-      }
-
-      return HistoricalTimeSpan.FromDays((years * 365) + yearDays + leapDays);
-    }
+    public static HistoricalTimeSpan operator -(JulianDate d1, JulianDate d2) => d1.Subtract(d2);
+    public static JulianDate operator +(JulianDate d, HistoricalTimeSpan t) => d.Add(t);
 
     public static bool operator !=(JulianDate a, JulianDate b) => !a.Equals(b);
 
@@ -428,6 +396,41 @@ namespace Cyotek
         hash = (hash * 23) + _day;
         return hash;
       }
+    }
+
+    public HistoricalTimeSpan Subtract(JulianDate value)
+    {
+      long years;
+      int yearDays;
+      int d1RelativeYear;
+      int d2RelativeYear;
+      int leapDays;
+
+      years = this.AbsoluteYear - value.AbsoluteYear;
+      yearDays = this.DayOfYear - value.DayOfYear;
+      d1RelativeYear = this.RelativeYear;
+      d2RelativeYear = value.RelativeYear;
+      leapDays = 0;
+
+      if (d1RelativeYear >= -45 && d2RelativeYear >= -45) // TODO: Consider maximum years, don't need to enumerate 2billion numbers
+      {
+        for (int i = Math.Min(d1RelativeYear, d2RelativeYear); i < Math.Max(d1RelativeYear, d2RelativeYear); i++)
+        {
+          if (JulianDate.IsLeapYear(i, i > 0
+            ? JulianEra.Ad
+            : JulianEra.Bc))
+          {
+            leapDays++;
+          }
+        }
+
+        if (d1RelativeYear < d2RelativeYear)
+        {
+          leapDays = -leapDays;
+        }
+      }
+
+      return HistoricalTimeSpan.FromDays((years * 365) + yearDays + leapDays);
     }
 
     public long ToBinary()

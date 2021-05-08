@@ -886,6 +886,20 @@ namespace Cyotek.HistoricalDate.Tests
     }
 
     [Test]
+    [TestCaseSource(nameof(MinusOperatorTestData))]
+    public void SubtractTestCases(JulianDate d1, JulianDate d2, HistoricalTimeSpan expected)
+    {
+      // arrange
+      HistoricalTimeSpan actual;
+
+      // act
+      actual = d1.Subtract(d2);
+
+      // assert
+      Assert.AreEqual(expected, actual);
+    }
+
+    [Test]
     [TestCaseSource(nameof(ToBinaryTestData))]
     public void ToBinaryTestCases(JulianDate target, long expected)
     {
