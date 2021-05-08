@@ -192,12 +192,22 @@ namespace Cyotek.HistoricalDate.Tests
       get
       {
         yield return new TestCaseData(JulianDate.Empty, JulianDate.Empty, HistoricalTimeSpan.Zero).SetName("{m}Empty");
-        yield return new TestCaseData(new JulianDate(2021, 2, 4), JulianDate.Empty, HistoricalTimeSpan.FromDays(737335)).SetName("{m}EmptyRight");
-        yield return new TestCaseData(JulianDate.Empty, new JulianDate(2021, 2, 4), HistoricalTimeSpan.FromDays(-737335)).SetName("{m}EmptyLeft");
+        yield return new TestCaseData(JulianDate.Empty, new JulianDate(2021, 2, 4), HistoricalTimeSpan.FromDays(-737839)).SetName("{m}EmptyLeft");
+        yield return new TestCaseData(new JulianDate(2021, 2, 4), JulianDate.Empty, HistoricalTimeSpan.FromDays(737839)).SetName("{m}EmptyRight");
         yield return new TestCaseData(new JulianDate(2021, 2, 4), new JulianDate(2021, 2, 4), HistoricalTimeSpan.Zero).SetName("{m}Equal");
+        yield return new TestCaseData(new JulianDate(2021, 12, 8), new JulianDate(2021, 5, 8), HistoricalTimeSpan.FromDays(214)).SetName("{m}GreaterMonth");
+        yield return new TestCaseData(new JulianDate(2021, 5, 8), new JulianDate(2021, 12, 8), HistoricalTimeSpan.FromDays(-214)).SetName("{m}LesserMonth");
+        yield return new TestCaseData(new JulianDate(2021, 5, 1), new JulianDate(2021, 5, 31), HistoricalTimeSpan.FromDays(-30)).SetName("{m}GreaterDay");
+        yield return new TestCaseData(new JulianDate(2021, 5, 31), new JulianDate(2021, 5, 1), HistoricalTimeSpan.FromDays(30)).SetName("{m}LesserDay");
         yield return new TestCaseData(new JulianDate(2022, 2, 4), new JulianDate(2021, 2, 4), HistoricalTimeSpan.FromDays(365)).SetName("{m}GreaterYear");
         yield return new TestCaseData(new JulianDate(2021, 2, 4), new JulianDate(2022, 2, 4), HistoricalTimeSpan.FromDays(-365)).SetName("{m}LesserYear");
         yield return new TestCaseData(new JulianDate(1, JulianEra.Bc), new JulianDate(1, JulianEra.Ad), HistoricalTimeSpan.FromDays(-365)).SetName("{m}EraBcAd");
+        yield return new TestCaseData(new JulianDate(2021, 5, 8), new JulianDate(2021, 2, 4), HistoricalTimeSpan.FromDays(93)).SetName("{m}GreaterMixMonth");
+        yield return new TestCaseData(new JulianDate(2021, 2, 4), new JulianDate(2021, 5, 8), HistoricalTimeSpan.FromDays(-93)).SetName("{m}LesserMixMonth");
+        yield return new TestCaseData(new JulianDate(2022, 5, 8), new JulianDate(2020, 2, 4), HistoricalTimeSpan.FromDays(824)).SetName("{m}GreaterMixYearWithLeap");
+        yield return new TestCaseData(new JulianDate(2020, 2, 4), new JulianDate(2022, 5, 8), HistoricalTimeSpan.FromDays(-824)).SetName("{m}LesserMixYearWithLeap");
+        yield return new TestCaseData(new JulianDate(2023, 5, 8), new JulianDate(2021, 2, 4), HistoricalTimeSpan.FromDays(823)).SetName("{m}GreaterMixYear");
+        yield return new TestCaseData(new JulianDate(2021, 2, 4), new JulianDate(2023, 5, 8), HistoricalTimeSpan.FromDays(-823)).SetName("{m}LesserMixYear");
       }
     }
 

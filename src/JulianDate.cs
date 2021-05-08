@@ -165,15 +165,13 @@ namespace Cyotek
 
     #region Private Properties
 
-    private long AbsoluteYears
-    {
-      get
-      {
-        return _era == JulianEra.Ad
-          ? (long)int.MaxValue + (_year - 1)
-          : int.MaxValue - _year;
-      }
-    }
+    private long AbsoluteYear => _era == JulianEra.Ad
+                                    ? (long)int.MaxValue + (_year - 1)
+                                    : int.MaxValue - _year;
+
+    private int RelativeYear => _era == JulianEra.Ad
+                                  ? _year
+                                  : -_year;
 
     #endregion Private Properties
 
@@ -285,95 +283,37 @@ namespace Cyotek
 
     public static HistoricalTimeSpan operator -(JulianDate d1, JulianDate d2)
     {
-      long year;
-      int month;
-      int day;
-      long totalDays;
+      long years;
+      int yearDays;
+      int d1RelativeYear;
+      int d2RelativeYear;
+      int leapDays;
 
-      year = d1.AbsoluteYears - d2.AbsoluteYears;
+      years = d1.AbsoluteYear - d2.AbsoluteYear;
+      yearDays = d1.DayOfYear - d2.DayOfYear;
+      d1RelativeYear = d1.RelativeYear;
+      d2RelativeYear = d2.RelativeYear;
+      leapDays = 0;
 
-      if (d1._month > 0 || d2._month > 0)
+      if (d1RelativeYear >= -45 && d2RelativeYear >= -45) // TODO: Consider maximum years, don't need to enumerate 2billion numbers
       {
-        if (d1._month > 0 && d2._month > 0)
+        for (int i = Math.Min(d1RelativeYear, d2RelativeYear); i < Math.Max(d1RelativeYear, d2RelativeYear); i++)
         {
-          month = d1._month - d2._month;
-          if (month < 0)
+          if (IsLeapYear(i, i > 0
+            ? JulianEra.Ad
+            : JulianEra.Bc))
           {
-            month = 12 + month;
-            year--;
+            leapDays++;
           }
         }
-        else
+
+        if (d1RelativeYear < d2RelativeYear)
         {
-          month = Math.Max(d1._month, d2._month);
-        }
-
-        if (d1._day > 0 || d2._day > 0)
-        {
-          if (d1._day > 0 && d2._day > 0)
-          {
-            day = d1._day - d2._day;
-
-            if (day < 0)
-            {
-              int days;
-
-              days = JulianDate.DaysInMonth(year, month, JulianEra.Ad);
-
-              day = days + day;
-              month--;
-
-              if (month < 1)
-              {
-                month = 12;
-                year--;
-              }
-            }
-          }
-          else
-          {
-            day = Math.Max(d1._day, d2._day);
-          }
-        }
-        else
-        {
-          day = 0;
-        }
-      }
-      else
-      {
-        month = 0;
-        day = 0;
-      }
-
-      totalDays = year * 365;
-
-      if (month != 0)
-      {
-        int yearDays;
-
-        yearDays = _daysToMonth365[month - 1];
-
-        if (totalDays >= 0)
-        {
-          totalDays += yearDays;
-        }
-        else
-        {
-          totalDays -= yearDays;
+          leapDays = -leapDays;
         }
       }
 
-      if (totalDays > 0)
-      {
-        totalDays += day;
-      }
-      else if (totalDays < 0)
-      {
-        totalDays -= day;
-      }
-
-      return HistoricalTimeSpan.FromDays(totalDays);
+      return HistoricalTimeSpan.FromDays((years * 365) + yearDays + leapDays);
     }
 
     public static bool operator !=(JulianDate a, JulianDate b) => !a.Equals(b);
@@ -423,8 +363,8 @@ namespace Cyotek
         long x;
         long y;
 
-        x = this.AbsoluteYears;
-        y = other.AbsoluteYears;
+        x = this.AbsoluteYear;
+        y = other.AbsoluteYear;
 
         result = x.CompareTo(y);
 
@@ -492,13 +432,7 @@ namespace Cyotek
 
     public long ToBinary()
     {
-      long year;
-
-      year = _era == JulianEra.Ad
-        ? _year
-        : -_year;
-
-      return (year << 32) | (uint)this.DayOfYear;
+      return ((long)this.RelativeYear << 32) | (uint)this.DayOfYear;
     }
 
     public override string ToString()
@@ -538,10 +472,8 @@ namespace Cyotek
 
         return sb.ToStringAndRelease();
       }
-      else
-      {
-        return string.Empty;
-      }
+
+      return string.Empty;
     }
 
     #endregion Public Methods
@@ -556,8 +488,7 @@ namespace Cyotek
     /// <param name="year">Year.</param>
     private static int GetDaysInMonth(int month, int year, JulianEra era)
     {
-      return DateTime.DaysInMonth(JulianDate.IsLeapYear(year, era) ? _leapYear : _nonLeapYear, month
-      );
+      return DateTime.DaysInMonth(JulianDate.IsLeapYear(year, era) ? _leapYear : _nonLeapYear, month);
     }
 
     private static void MonthFromDayOfYear(int year, int dayOfYear, JulianEra era, out int month, out int day)
