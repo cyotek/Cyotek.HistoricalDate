@@ -221,16 +221,7 @@ namespace Cyotek
           era = JulianEra.Bc;
         }
 
-        if (dayOfYear != 0)
-        {
-          JulianDate.MonthFromDayOfYear(year, dayOfYear, era, out int month, out int day);
-
-          result = new JulianDate(year, month, day, era);
-        }
-        else
-        {
-          result = new JulianDate(year, era);
-        }
+        result = JulianDate.FromYearAndDay(year, dayOfYear, era);
       }
       else
       {
@@ -282,9 +273,10 @@ namespace Cyotek
     }
 
     public static HistoricalTimeSpan operator -(JulianDate d1, JulianDate d2) => d1.Subtract(d2);
-    public static JulianDate operator +(JulianDate d, HistoricalTimeSpan t) => d.Add(t);
 
     public static bool operator !=(JulianDate a, JulianDate b) => !a.Equals(b);
+
+    public static JulianDate operator +(JulianDate d, HistoricalTimeSpan t) => d.Add(t);
 
     public static bool operator <(JulianDate a, JulianDate b) => a.CompareTo(b) < 0;
 
@@ -318,6 +310,133 @@ namespace Cyotek
         : JulianDate.Empty;
 
       return !result.IsEmpty;
+    }
+
+    public JulianDate Add(HistoricalTimeSpan value)
+    {
+      JulianDate result;
+
+      if (value.Ticks != 0)
+      {
+        result = this.AddDays(Convert.ToInt32(value.TotalDays));
+      }
+      else
+      {
+        result = this;
+      }
+
+      return result;
+    }
+
+    public JulianDate AddDays(int days)
+    {
+      JulianDate result;
+
+      if (days != 0)
+      {
+        int y;
+        int d;
+
+        y = this.RelativeYear;
+        d = this.DayOfYear + days;
+
+        if (d > 0)
+        {
+          int q = (int)((uint)(d - 1) / 365);
+          y += q;
+          d -= q * 365;
+        }
+        else
+        {
+          y += d / 365 - 1;
+          d = 365 + d % 365;
+        }
+
+        JulianDate.RotateYear(ref y, out JulianEra era);
+
+        if (JulianDate.IsLeapYear(y, era) && days < 0)
+        {
+          d++;
+        }
+
+        result = JulianDate.FromYearAndDay(y, d, era);
+      }
+      else
+      {
+        result = JulianDate.Empty;
+      }
+
+      return result;
+    }
+
+    public JulianDate AddMonths(int months)
+    {
+      JulianDate result;
+
+      if (months != 0)
+      {
+        int y;
+        int d;
+        int m;
+        int daysInMonth;
+
+        // Derived from
+        // https://github.com/dotnet/runtime/blob/01b7e73cd378145264a7cb7a09365b41ed42b240/src/libraries/System.Private.CoreLib/src/System/DateTime.cs#L444
+
+        y = this.RelativeYear;
+        d = _day;
+        m = _month + months;
+
+        if (m > 0)
+        {
+          int q = (int)((uint)(m - 1) / 12);
+          y += q;
+          m -= q * 12;
+        }
+        else
+        {
+          y += m / 12 - 1;
+          m = 12 + m % 12;
+        }
+
+        JulianDate.RotateYear(ref y, out JulianEra era);
+
+        daysInMonth = JulianDate.DaysInMonth(y, m, era);
+        if (d > daysInMonth)
+        {
+          d = daysInMonth;
+        }
+
+        result = JulianDate.FromPartial(y, m, d, era);
+      }
+      else
+      {
+        result = this;
+      }
+
+      return result;
+    }
+
+    public JulianDate AddYears(int value)
+    {
+      JulianDate result;
+
+      if (value != 0)
+      {
+        int y;
+
+        y = this.RelativeYear + value;
+
+        JulianDate.RotateYear(ref y, out JulianEra era);
+
+        result = JulianDate.FromYearAndDay(y, this.DayOfYear, era);
+      }
+      else
+      {
+        result = this;
+      }
+
+      return result;
     }
 
     public int CompareTo(JulianDate other)
@@ -365,7 +484,7 @@ namespace Cyotek
           break;
 
         default:
-          throw new ArgumentException("Argument must be a JulianDate.", nameof(obj));
+          throw new ArgumentException("Argument must be a " + nameof(JulianDate) + ".", nameof(obj));
       }
 
       return result;
@@ -483,6 +602,44 @@ namespace Cyotek
 
     #region Private Methods
 
+    private static JulianDate FromPartial(int year, int month, int day, JulianEra era)
+    {
+      JulianDate result;
+
+      if (day > 0)
+      {
+        result = new JulianDate(year, month, day, era);
+      }
+      else if (month > 0)
+      {
+        result = new JulianDate(year, month, era);
+      }
+      else
+      {
+        result = new JulianDate(year, era);
+      }
+
+      return result;
+    }
+
+    private static JulianDate FromYearAndDay(int year, int dayOfYear, JulianEra era)
+    {
+      JulianDate result;
+
+      if (dayOfYear != 0)
+      {
+        JulianDate.MonthFromDayOfYear(year, dayOfYear, era, out int month, out int day);
+
+        result = new JulianDate(year, month, day, era);
+      }
+      else
+      {
+        result = new JulianDate(year, era);
+      }
+
+      return result;
+    }
+
     /// <summary>
     /// Gets the days in a particular month, accounting for leap years and eras.
     /// </summary>
@@ -521,6 +678,19 @@ namespace Cyotek
       {
         month = 0;
         day = 0;
+      }
+    }
+
+    private static void RotateYear(ref int y, out JulianEra era)
+    {
+      if (y > 0)
+      {
+        era = JulianEra.Ad;
+      }
+      else
+      {
+        era = JulianEra.Bc;
+        y = -y + 1;
       }
     }
 

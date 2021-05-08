@@ -10,6 +10,52 @@ namespace Cyotek.HistoricalDate.Tests
   {
     #region Public Properties
 
+    public static IEnumerable<TestCaseData> AddDaysTestData
+    {
+      get
+      {
+        yield return new TestCaseData(JulianDate.Empty, 0, JulianDate.Empty).SetName("{m}EmptyToEmpty");
+        yield return new TestCaseData(new JulianDate(1, 1, 1, JulianEra.Ad), -1, new JulianDate(1, 12, 31, JulianEra.Bc)).SetName("{m}OneAdToOneBc");
+        yield return new TestCaseData(new JulianDate(1, 1, 1, JulianEra.Ad), -365, new JulianDate(1, 1, 1, JulianEra.Bc)).SetName("{m}Minus365OverEra");
+        yield return new TestCaseData(new JulianDate(2021, 5, 8), 1, new JulianDate(2021, 5, 9)).SetName("{m}AddOne");
+        yield return new TestCaseData(new JulianDate(2021, 5, 8), 2, new JulianDate(2021, 5, 10)).SetName("{m}AddTwo");
+        yield return new TestCaseData(new JulianDate(2021, 5, 8), 31, new JulianDate(2021, 6, 8)).SetName("{m}AddThirtyOne");
+        yield return new TestCaseData(new JulianDate(2021, 5, 8), -1, new JulianDate(2021, 5, 7)).SetName("{m}MinusOne");
+        yield return new TestCaseData(new JulianDate(2021, 5, 8), -2, new JulianDate(2021, 5, 6)).SetName("{m}MinusTwo");
+        yield return new TestCaseData(new JulianDate(2021, 5, 8), -31, new JulianDate(2021, 4, 7)).SetName("{m}MinusThirtyOne");
+      }
+    }
+
+    public static IEnumerable<TestCaseData> AddMonthsTestData
+    {
+      get
+      {
+        yield return new TestCaseData(JulianDate.Empty, 0, JulianDate.Empty).SetName("{m}EmptyToEmpty");
+        yield return new TestCaseData(new JulianDate(1, 1, 1, JulianEra.Ad), -12, new JulianDate(1, 1, 1, JulianEra.Bc)).SetName("{m}OneAdToOneBc");
+        yield return new TestCaseData(new JulianDate(2021, 5, 8), 1, new JulianDate(2021, 6, 8)).SetName("{m}AddOne");
+        yield return new TestCaseData(new JulianDate(2021, 5, 8), 2, new JulianDate(2021, 7, 8)).SetName("{m}AddTwo");
+        yield return new TestCaseData(new JulianDate(2021, 5, 8), 12, new JulianDate(2022, 5, 8)).SetName("{m}AddTwelve");
+        yield return new TestCaseData(new JulianDate(2021, 5, 8), -1, new JulianDate(2021, 4, 8)).SetName("{m}MinusOne");
+        yield return new TestCaseData(new JulianDate(2021, 5, 8), -2, new JulianDate(2021, 3, 8)).SetName("{m}MinusTwo");
+        yield return new TestCaseData(new JulianDate(2021, 5, 8), -12, new JulianDate(2020, 5, 8)).SetName("{m}MinusTwelve");
+        yield return new TestCaseData(new JulianDate(2021, 1, 31), 1, new JulianDate(2021, 2, 28)).SetName("{m}OverDaysInMonth");
+        yield return new TestCaseData(new JulianDate(2024, 1, 31), 1, new JulianDate(2024, 2, 29)).SetName("{m}OverDaysInMonthAndLeapYear");
+      }
+    }
+
+    public static IEnumerable<TestCaseData> AddYearsTestData
+    {
+      get
+      {
+        yield return new TestCaseData(JulianDate.Empty, 0, JulianDate.Empty).SetName("{m}EmptyToEmpty");
+        yield return new TestCaseData(new JulianDate(1, JulianEra.Ad), -1, new JulianDate(1, JulianEra.Bc)).SetName("{m}OneAdToOneBc");
+        yield return new TestCaseData(new JulianDate(2021, 8, 5), -4000, new JulianDate(1980, 8, 5, JulianEra.Bc)).SetName("{m}AdToBc");
+        yield return new TestCaseData(new JulianDate(2021, 5, 8), 1, new JulianDate(2022, 5, 8)).SetName("{m}AddOne");
+        yield return new TestCaseData(new JulianDate(2022, 5, 8), -1, new JulianDate(2021, 5, 8)).SetName("{m}MinusOne");
+        yield return new TestCaseData(new JulianDate(2021, 5, 8), -1, new JulianDate(2020, 5, 7)).SetName("{m}MinusOneWithLeap");
+      }
+    }
+
     public static IEnumerable<TestCaseData> CompareToTestData
     {
       get
@@ -239,6 +285,17 @@ namespace Cyotek.HistoricalDate.Tests
       }
     }
 
+    public static IEnumerable<TestCaseData> PlusOperatorTestData
+    {
+      get
+      {
+        yield return new TestCaseData(new JulianDate(2022, 5, 8), HistoricalTimeSpan.FromDays(-365), new JulianDate(2021, 5, 8)).SetName("{m}Minus365");
+        yield return new TestCaseData(new JulianDate(2021, 5, 8), HistoricalTimeSpan.FromDays(-365), new JulianDate(2020, 5, 8)).SetName("{m}Minus365Leap");
+        yield return new TestCaseData(new JulianDate(2021, 5, 8), HistoricalTimeSpan.FromDays(365), new JulianDate(2022, 5, 8)).SetName("{m}Plus365");
+        yield return new TestCaseData(new JulianDate(2023, 5, 8), HistoricalTimeSpan.FromDays(365), new JulianDate(2024, 5, 7)).SetName("{m}Plus365Leap");
+      }
+    }
+
     public static IEnumerable<TestCaseData> ToBinaryTestData
     {
       get
@@ -250,8 +307,6 @@ namespace Cyotek.HistoricalDate.Tests
         yield return new TestCaseData(new JulianDate(2020, 2, 1), 8675833937952).SetName("{m}Ad");
         yield return new TestCaseData(JulianDate.MinValue, -9223372032559808511).SetName("{m}Min");
         yield return new TestCaseData(JulianDate.MaxValue, 9223372032559808877).SetName("{m}Max");
-        //yield return new TestCaseData(new JulianDate(1, JulianEra.Ad), int.MaxValue).SetName("{m}OneAd");
-        //yield return new TestCaseData(new JulianDate(1, JulianEra.Bc), int.MaxValue-1).SetName("{m}OneBc");
       }
     }
 
@@ -281,20 +336,72 @@ namespace Cyotek.HistoricalDate.Tests
         yield return new TestCaseData("2021 BP", true, new JulianDate(2021, JulianEra.Bc)).SetName("{m}BeforePresent");
         yield return new TestCaseData("2021 BC", true, new JulianDate(2021, JulianEra.Bc)).SetName("{m}Year");
         yield return new TestCaseData("2021 AD", true, new JulianDate(2021, JulianEra.Ad)).SetName("{m}YearEra");
-        yield return new TestCaseData("January 2021 BC", true, new JulianDate(2021, 1, JulianEra.Bc)).SetName(
-          "{m}Month");
-        yield return new TestCaseData("30 January 2021 BC", true, new JulianDate(2021, 1, 30, JulianEra.Bc))
-          .SetName("{m}Day");
-        yield return new TestCaseData("30 January 2021", true, new JulianDate(2021, 1, 30, JulianEra.Ad)).SetName(
-          "{m}DayWithoutEra");
-        yield return new TestCaseData("January 2021", true, new JulianDate(2021, 1, JulianEra.Ad)).SetName(
-          "{m}MonthWithoutEra");
+        yield return new TestCaseData("January 2021 BC", true, new JulianDate(2021, 1, JulianEra.Bc)).SetName("{m}Month");
+        yield return new TestCaseData("30 January 2021 BC", true, new JulianDate(2021, 1, 30, JulianEra.Bc)).SetName("{m}Day");
+        yield return new TestCaseData("30 January 2021", true, new JulianDate(2021, 1, 30, JulianEra.Ad)).SetName("{m}DayWithoutEra");
+        yield return new TestCaseData("January 2021", true, new JulianDate(2021, 1, JulianEra.Ad)).SetName("{m}MonthWithoutEra");
       }
     }
 
     #endregion Public Properties
 
     #region Public Methods
+
+    [Test]
+    [TestCaseSource(nameof(AddDaysTestData))]
+    public void AdDaysTestCases(JulianDate target, int value, JulianDate expected)
+    {
+      // arrange
+      JulianDate actual;
+
+      // act
+      actual = target.AddDays(value);
+
+      // assert
+      Assert.AreEqual(expected, actual);
+    }
+
+    [Test]
+    [TestCaseSource(nameof(AddMonthsTestData))]
+    public void AddMonthsTestCases(JulianDate target, int value, JulianDate expected)
+    {
+      // arrange
+      JulianDate actual;
+
+      // act
+      actual = target.AddMonths(value);
+
+      // assert
+      Assert.AreEqual(expected, actual);
+    }
+
+    [Test]
+    [TestCaseSource(nameof(PlusOperatorTestData))]
+    public void AddTestCases(JulianDate d, HistoricalTimeSpan t, JulianDate expected)
+    {
+      // arrange
+      JulianDate actual;
+
+      // act
+      actual = d.Add(t);
+
+      // assert
+      Assert.AreEqual(expected, actual);
+    }
+
+    [Test]
+    [TestCaseSource(nameof(AddYearsTestData))]
+    public void AddYearsTestCases(JulianDate target, int value, JulianDate expected)
+    {
+      // arrange
+      JulianDate actual;
+
+      // act
+      actual = target.AddYears(value);
+
+      // assert
+      Assert.AreEqual(expected, actual);
+    }
 
     [Test]
     public void CompareToExceptionTest()
@@ -514,6 +621,23 @@ namespace Cyotek.HistoricalDate.Tests
 
       // assert
       Assert.AreEqual(expected, actual);
+    }
+
+    [Test]
+    public void EmptyTest()
+    {
+      // arrange
+      JulianDate target;
+
+      // act
+      target = JulianDate.Empty;
+
+      // assert
+      Assert.IsTrue(target.IsEmpty);
+      Assert.Zero(target.Day);
+      Assert.Zero(target.Month);
+      Assert.Zero(target.Year);
+      Assert.Zero((int)target.Era);
     }
 
     [Test]
@@ -839,6 +963,32 @@ namespace Cyotek.HistoricalDate.Tests
     }
 
     [Test]
+    public void MaxValueTest()
+    {
+      // arrange
+      JulianDate target;
+      int expectedYear;
+      int expectedMonth;
+      int expectedDay;
+      JulianEra expectedEra;
+
+      expectedYear = int.MaxValue;
+      expectedMonth = 12;
+      expectedDay = 31;
+      expectedEra = JulianEra.Ad;
+
+      // act
+      target = JulianDate.MaxValue;
+
+      // assert
+      Assert.IsFalse(target.IsEmpty);
+      Assert.AreEqual(expectedYear, target.Year);
+      Assert.AreEqual(expectedMonth, target.Month);
+      Assert.AreEqual(expectedDay, target.Day);
+      Assert.AreEqual(expectedEra, target.Era);
+    }
+
+    [Test]
     [TestCaseSource(nameof(MinusOperatorTestData))]
     public void MinusOperatorTestCases(JulianDate d1, JulianDate d2, HistoricalTimeSpan expected)
     {
@@ -850,6 +1000,32 @@ namespace Cyotek.HistoricalDate.Tests
 
       // assert
       Assert.AreEqual(expected, actual);
+    }
+
+    [Test]
+    public void MinValueTest()
+    {
+      // arrange
+      JulianDate target;
+      int expectedYear;
+      int expectedMonth;
+      int expectedDay;
+      JulianEra expectedEra;
+
+      expectedYear = int.MaxValue;
+      expectedMonth = 1;
+      expectedDay = 1;
+      expectedEra = JulianEra.Bc;
+
+      // act
+      target = JulianDate.MinValue;
+
+      // assert
+      Assert.IsFalse(target.IsEmpty);
+      Assert.AreEqual(expectedYear, target.Year);
+      Assert.AreEqual(expectedMonth, target.Month);
+      Assert.AreEqual(expectedDay, target.Day);
+      Assert.AreEqual(expectedEra, target.Era);
     }
 
     [Test]
@@ -880,6 +1056,20 @@ namespace Cyotek.HistoricalDate.Tests
 
       // act
       actual = JulianDate.Parse(value);
+
+      // assert
+      Assert.AreEqual(expected, actual);
+    }
+
+    [Test]
+    [TestCaseSource(nameof(PlusOperatorTestData))]
+    public void PlusOperatorTestCases(JulianDate d, HistoricalTimeSpan t, JulianDate expected)
+    {
+      // arrange
+      JulianDate actual;
+
+      // act
+      actual = d + t;
 
       // assert
       Assert.AreEqual(expected, actual);
