@@ -62,6 +62,14 @@ namespace Cyotek
 
     public long Ticks => _ticks;
 
+    public double TotalDays => (double)_ticks / _secondsPerDay;
+
+    public double TotalHours => (double)_ticks / _secondsPerHour;
+
+    public double TotalMinutes => (double)_ticks / _secondsPerMinute;
+
+    public double TotalSeconds => _ticks;
+
     public int Years => (int)(_ticks / _secondsPerYear);
 
     #endregion Public Properties

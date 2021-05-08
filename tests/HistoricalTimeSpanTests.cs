@@ -44,6 +44,82 @@ namespace Cyotek.HistoricalDate.Tests
       Assert.AreEqual(expected, actual);
     }
 
+    [Test]
+    public void TotalDaysTest()
+    {
+      // arrange
+      HistoricalTimeSpan target;
+      double expected;
+      double actual;
+
+      target = new HistoricalTimeSpan(7, 12, 30, 15);
+
+      expected = 7.5210069444444443;
+
+      // act
+      actual = target.TotalDays;
+
+      // assert
+      Assert.AreEqual(expected, actual);
+    }
+
+    [Test]
+    public void TotalHoursTest()
+    {
+      // arrange
+      HistoricalTimeSpan target;
+      double expected;
+      double actual;
+
+      target = new HistoricalTimeSpan(7, 12, 30, 15);
+
+      expected = 180.50416666666666;
+
+      // act
+      actual = target.TotalHours;
+
+      // assert
+      Assert.AreEqual(expected, actual);
+    }
+
+    [Test]
+    public void TotalMinutesTest()
+    {
+      // arrange
+      HistoricalTimeSpan target;
+      double expected;
+      double actual;
+
+      target = new HistoricalTimeSpan(7, 12, 30, 15);
+
+      expected = 10830.25;
+
+      // act
+      actual = target.TotalMinutes;
+
+      // assert
+      Assert.AreEqual(expected, actual);
+    }
+
+    [Test]
+    public void TotalSecondsTest()
+    {
+      // arrange
+      HistoricalTimeSpan target;
+      double expected;
+      double actual;
+
+      target = new HistoricalTimeSpan(7, 12, 30, 15);
+
+      expected = 649815;
+
+      // act
+      actual = target.TotalSeconds;
+
+      // assert
+      Assert.AreEqual(expected, actual);
+    }
+
     #endregion Public Methods
   }
 }
