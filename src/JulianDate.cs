@@ -208,22 +208,12 @@ namespace Cyotek
       {
         long absoluteYear;
         int dayOfYear;
-        JulianEra era;
         int year;
 
         absoluteYear = ticks / _yearModifier;
         dayOfYear = (int)((ticks - (absoluteYear * _yearModifier)) / HistoricalTimeSpan._secondsPerDay);
 
-        if (absoluteYear >= int.MaxValue)
-        {
-          year = (int)(absoluteYear - int.MaxValue) + 1;
-          era = JulianEra.Ad;
-        }
-        else
-        {
-          year = -(int)(absoluteYear - int.MaxValue);
-          era = JulianEra.Bc;
-        }
+        year = JulianDate.GetRelativeYear(absoluteYear, out JulianEra era);
 
         result = JulianDate.FromYearAndDay(year, dayOfYear, era);
       }
@@ -429,9 +419,12 @@ namespace Cyotek
       {
         int y;
 
-        y = this.RelativeYear + value;
+        if (_era == JulianEra.Bc)
+        {
+          value = -value;
+        }
 
-        JulianDate.RotateYear(ref y, out JulianEra era);
+        y = JulianDate.GetRelativeYear(this.AbsoluteYear + value, out JulianEra era);
 
         result = JulianDate.FromYearAndDay(y, this.DayOfYear, era);
       }
@@ -569,7 +562,7 @@ namespace Cyotek
       {
         StringBuilder sb;
 
-        sb = StringBuilderCache.Acquire(13);
+        sb = StringBuilderCache.Acquire();
 
         if (_year < -_maximumYearsBeforeSeparators || _year > _maximumYearsBeforeSeparators)
         {
@@ -653,15 +646,22 @@ namespace Cyotek
       return result;
     }
 
-    /// <summary>
-    /// Gets the days in a particular month, accounting for leap years and eras.
-    /// </summary>
-    /// <returns>The days in month.</returns>
-    /// <param name="month">Month.</param>
-    /// <param name="year">Year.</param>
-    private static int GetDaysInMonth(int month, int year, JulianEra era)
+    private static int GetRelativeYear(long absoluteYear, out JulianEra era)
     {
-      return DateTime.DaysInMonth(JulianDate.IsLeapYear(year, era) ? _leapYear : _nonLeapYear, month);
+      int year;
+
+      if (absoluteYear >= int.MaxValue)
+      {
+        year = (int)(absoluteYear - int.MaxValue) + 1;
+        era = JulianEra.Ad;
+      }
+      else
+      {
+        year = -(int)(absoluteYear - int.MaxValue);
+        era = JulianEra.Bc;
+      }
+
+      return year;
     }
 
     private static void MonthFromDayOfYear(int year, int dayOfYear, JulianEra era, out int month, out int day)

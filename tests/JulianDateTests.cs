@@ -49,6 +49,8 @@ namespace Cyotek.HistoricalDate.Tests
       {
         yield return new TestCaseData(JulianDate.Empty, 0, JulianDate.Empty).SetName("{m}EmptyToEmpty");
         yield return new TestCaseData(new JulianDate(1, JulianEra.Ad), -1, new JulianDate(1, JulianEra.Bc)).SetName("{m}OneAdToOneBc");
+        yield return new TestCaseData(new JulianDate(10, JulianEra.Bc), 1, new JulianDate(11, JulianEra.Bc)).SetName("{m}BcPlus");
+        yield return new TestCaseData(new JulianDate(10, JulianEra.Bc), -1, new JulianDate(9, JulianEra.Bc)).SetName("{m}BcMinus");
         yield return new TestCaseData(new JulianDate(2021, 8, 5), -4000, new JulianDate(1980, 8, 5, JulianEra.Bc)).SetName("{m}AdToBc");
         yield return new TestCaseData(new JulianDate(2021, 5, 8), 1, new JulianDate(2022, 5, 8)).SetName("{m}AddOne");
         yield return new TestCaseData(new JulianDate(2022, 5, 8), -1, new JulianDate(2021, 5, 8)).SetName("{m}MinusOne");
