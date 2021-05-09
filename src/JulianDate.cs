@@ -11,11 +11,11 @@ namespace Cyotek
   {
     #region Public Fields
 
-    public static readonly JulianDate Empty = new JulianDate();
+    public static readonly JulianDate Empty;
 
-    public static readonly JulianDate MaxValue = new JulianDate(int.MaxValue, 12, 31, JulianEra.Ad);
+    public static readonly JulianDate MaxValue;
 
-    public static readonly JulianDate MinValue = new JulianDate(int.MaxValue, 1, 1, JulianEra.Bc);
+    public static readonly JulianDate MinValue;
 
     #endregion Public Fields
 
@@ -23,11 +23,7 @@ namespace Cyotek
 
     private const int _beforePresentCutOff = 10_000;
 
-    private const int _leapYear = 2004;
-
     private const int _maximumYearsBeforeSeparators = 9999;
-
-    private const int _nonLeapYear = 2005;
 
     private const int _yearModifier = 100_000_000;
 
@@ -77,6 +73,13 @@ namespace Cyotek
 
     #region Public Constructors
 
+    static JulianDate()
+    {
+      JulianDate.Empty = new JulianDate();
+      JulianDate.MaxValue = new JulianDate(int.MaxValue, 12, 31, JulianEra.Ad);
+      JulianDate.MinValue = new JulianDate(int.MaxValue, 1, 1, JulianEra.Bc);
+    }
+
     public JulianDate(int year)
       : this(year, 1)
     {
@@ -119,7 +122,7 @@ namespace Cyotek
         throw new ArgumentOutOfRangeException(nameof(month), month, "Month is not valid.");
       }
 
-      if (day < 1 || day > JulianDate.GetDaysInMonth(month, year, era))
+      if (day < 1 || day > JulianDate.DaysInMonth(year, month, era))
       {
         throw new ArgumentOutOfRangeException(nameof(day), day, "Day is not valid.");
       }
