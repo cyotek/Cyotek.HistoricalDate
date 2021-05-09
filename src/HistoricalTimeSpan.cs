@@ -11,6 +11,12 @@ namespace Cyotek
 
     #endregion Public Fields
 
+    #region Internal Fields
+
+    internal const int _secondsPerDay = _secondsPerHour * _hoursPerDay;
+
+    #endregion Internal Fields
+
     #region Private Fields
 
     private const int _daysPerYear = 365;
@@ -18,8 +24,6 @@ namespace Cyotek
     private const int _hoursPerDay = 24;
 
     private const int _minutesPerHour = 60;
-
-    private const int _secondsPerDay = _secondsPerHour * _hoursPerDay;
 
     private const int _secondsPerHour = _minutesPerHour * _secondsPerMinute;
 

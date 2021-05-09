@@ -29,6 +29,8 @@ namespace Cyotek
 
     private const int _nonLeapYear = 2005;
 
+    private const int _yearModifier = 100_000_000;
+
     private static readonly int[] _daysToMonth365 =
     {
       0,
@@ -109,7 +111,7 @@ namespace Cyotek
     {
       if (year < 1)
       {
-        throw new ArgumentException("Invalid year.", nameof(year));
+        throw new ArgumentException("Year is not valid.", nameof(year));
       }
 
       if (month < 1 || month > 12)
@@ -201,25 +203,22 @@ namespace Cyotek
 
       if (ticks != 0)
       {
-        int absoluteYear;
+        long absoluteYear;
         int dayOfYear;
-        int year;
         JulianEra era;
+        int year;
 
-        absoluteYear = (int)(ticks >> 32);
-        dayOfYear = ((byte)((ticks & 0xFF000000) >> 24) << 24)
-          | ((byte)((ticks & 0x00FF0000) >> 16) << 16)
-          | ((byte)((ticks & 0x0000FF00) >> 8) << 8)
-          | (byte)(ticks & 0x000000FF);
+        absoluteYear = ticks / _yearModifier;
+        dayOfYear = (int)((ticks - (absoluteYear * _yearModifier)) / HistoricalTimeSpan._secondsPerDay);
 
-        if (absoluteYear > 0)
+        if (absoluteYear >= int.MaxValue)
         {
-          year = absoluteYear;
+          year = (int)(absoluteYear - int.MaxValue) + 1;
           era = JulianEra.Ad;
         }
         else
         {
-          year = -absoluteYear;
+          year = -(int)(absoluteYear - int.MaxValue);
           era = JulianEra.Bc;
         }
 
@@ -556,7 +555,9 @@ namespace Cyotek
 
     public long ToBinary()
     {
-      return ((long)this.RelativeYear << 32) | (uint)this.DayOfYear;
+      return _year != 0
+        ? (this.AbsoluteYear * _yearModifier) + (this.DayOfYear * HistoricalTimeSpan._secondsPerDay)
+        : 0;
     }
 
     public override string ToString()

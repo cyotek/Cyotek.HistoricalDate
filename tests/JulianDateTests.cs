@@ -302,13 +302,13 @@ namespace Cyotek.HistoricalDate.Tests
     {
       get
       {
+        yield return new TestCaseData(new JulianDate(2020, 2, 1), 214748566602764800).SetName("{m}Ad");
+        yield return new TestCaseData(new JulianDate(2020), 214748566600000000).SetName("{m}AdYearOnly");
+        yield return new TestCaseData(new JulianDate(2020, 2, 1, JulianEra.Bc), 214748162702764800).SetName("{m}Bc");
+        yield return new TestCaseData(new JulianDate(2020, JulianEra.Bc), 214748162700000000).SetName("{m}BcYearOnly");
         yield return new TestCaseData(JulianDate.Empty, 0).SetName("{m}Empty");
-        yield return new TestCaseData(new JulianDate(2020, JulianEra.Bc), -8675833937920).SetName("{m}BcYearOnly");
-        yield return new TestCaseData(new JulianDate(2020), 8675833937920).SetName("{m}AdYearOnly");
-        yield return new TestCaseData(new JulianDate(2020, 2, 1, JulianEra.Bc), -8675833937888).SetName("{m}Bc");
-        yield return new TestCaseData(new JulianDate(2020, 2, 1), 8675833937952).SetName("{m}Ad");
-        yield return new TestCaseData(JulianDate.MinValue, -9223372032559808511).SetName("{m}Min");
-        yield return new TestCaseData(JulianDate.MaxValue, 9223372032559808877).SetName("{m}Max");
+        yield return new TestCaseData(JulianDate.MaxValue, 429496729331536000).SetName("{m}Max");
+        yield return new TestCaseData(JulianDate.MinValue, 86400).SetName("{m}Min");
       }
     }
 
