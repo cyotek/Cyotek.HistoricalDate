@@ -845,6 +845,7 @@ namespace Cyotek.HistoricalDate.Tests
     }
 
     [Test]
+    [TestCase(45, JulianEra.Bc)]
     [TestCase(44, JulianEra.Bc)]
     [TestCase(41, JulianEra.Bc)]
     [TestCase(38, JulianEra.Bc)]
@@ -878,7 +879,6 @@ namespace Cyotek.HistoricalDate.Tests
     }
 
     [Test]
-    [TestCase(45, JulianEra.Bc)]
     [TestCase(42, JulianEra.Bc)]
     [TestCase(39, JulianEra.Bc)]
     [TestCase(36, JulianEra.Bc)]

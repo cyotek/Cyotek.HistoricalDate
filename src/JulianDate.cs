@@ -249,12 +249,18 @@ namespace Cyotek
        * Authorities disagree about whether 45 BC was a leap year or not.
        *
        * https://www.tondering.dk/claus/cal/julian.php
+       *
+       * Using Scaliger's scheme for leap years
+       *
+       * https://en.wikipedia.org/wiki/Julian_calendar#Year_length;_leap_years
+       *
+       * TODO: Consider using Bennett's scheme as the most recent
        */
 
       switch (era)
       {
         case JulianEra.Ad when year >= 8 && year % 4 == 0:
-        case JulianEra.Bc when year >= 9 && year <= 45 && year % 3 == 0:
+        case JulianEra.Bc when year >= 9 && year <= 42 && year % 3 == 0:
           result = true;
           break;
 
@@ -528,7 +534,7 @@ namespace Cyotek
       d2RelativeYear = value.RelativeYear;
       leapDays = 0;
 
-      if (d1RelativeYear >= -45 && d2RelativeYear >= -45) // TODO: Consider maximum years, don't need to enumerate 2billion numbers
+      if (d1RelativeYear >= -42 && d2RelativeYear >= -42) // TODO: Consider maximum years, don't need to enumerate 2billion numbers
       {
         for (int i = Math.Min(d1RelativeYear, d2RelativeYear); i < Math.Max(d1RelativeYear, d2RelativeYear); i++)
         {
