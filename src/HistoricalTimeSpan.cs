@@ -103,7 +103,7 @@ namespace Cyotek
       sb.Append(':');
       sb.Append(this.Seconds.ToString("00", CultureInfo.InvariantCulture));
 
-      return sb.ToStringAndRelease();
+      return StringBuilderCache.GetStringAndRelease(sb);
     }
 
     #endregion Public Methods

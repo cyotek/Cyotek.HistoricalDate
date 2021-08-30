@@ -571,6 +571,8 @@ namespace Cyotek
 
     public override string ToString()
     {
+      string result;
+
       if (_year > 0)
       {
         StringBuilder sb;
@@ -611,10 +613,14 @@ namespace Cyotek
           sb.Append("AD");
         }
 
-        return sb.ToStringAndRelease();
+        result = StringBuilderCache.GetStringAndRelease(sb);
+      }
+      else
+      {
+        result = string.Empty;
       }
 
-      return string.Empty;
+      return result;
     }
 
     #endregion Public Methods
