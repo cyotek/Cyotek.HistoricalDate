@@ -40,7 +40,7 @@ dotnet pack %PRJFILE% --configuration Release --no-build
 IF %ERRORLEVEL% NEQ 0 GOTO :failed
 
 CALL sign-package %RELDIR%*.nupkg
-REM CALL sign-package %RELDIR%*.snupkg
+CALL sign-package %RELDIR%*.snupkg
 
 ENDLOCAL
 
