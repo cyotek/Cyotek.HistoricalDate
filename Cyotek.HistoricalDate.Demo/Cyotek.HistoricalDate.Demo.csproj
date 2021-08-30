@@ -32,6 +32,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\res\Cyotek.HistoricalDate.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
@@ -79,6 +85,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\res\Cyotek.HistoricalDate.snk">
+      <Link>Cyotek.HistoricalDate.snk</Link>
+    </None>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>

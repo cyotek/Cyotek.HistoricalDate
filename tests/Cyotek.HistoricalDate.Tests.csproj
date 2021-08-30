@@ -11,6 +11,15 @@
     <RootNamespace>Cyotek.HistoricalDate.Tests</RootNamespace>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\res\Cyotek.HistoricalDate.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\res\Cyotek.HistoricalDate.snk" Link="Cyotek.HistoricalDate.snk" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="NUnit" Version="3.13.2" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
