@@ -10,8 +10,6 @@ testresults/
 
 push.cmd
 
-*.ncrunchsolution
-*.ncrunchproject
 *.suo
 *.user
 res/optimizeimages.bat
