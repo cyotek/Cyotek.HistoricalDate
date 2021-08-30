@@ -4,13 +4,13 @@
 // Writing DOOM WAD files
 // https://www.cyotek.com/blog/writing-doom-wad-files
 
-// Copyright © 2020-2021 Cyotek Ltd. All Rights Reserved.
+// Copyright (c) 2020-2021 Cyotek Ltd. All Rights Reserved.
 
 // This work is licensed under the MIT License.
 // See LICENSE.txt for the full text
 
 // Found this example useful?
-// https://www.paypal.me/cyotek
+// https://www.cyotek.com/contribute
 
 using System;
 using System.ComponentModel;

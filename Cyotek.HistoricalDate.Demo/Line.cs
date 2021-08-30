@@ -1,17 +1,17 @@
-﻿using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
-
-// Capturing screenshots using C# and p/invoke
+﻿// Capturing screenshots using C# and p/invoke
 // http://www.cyotek.com/blog/capturing-screenshots-using-csharp-and-p-invoke
-// Copyright © 2017 Cyotek Ltd. All Rights Reserved.
+// Copyright (c) 2017 Cyotek Ltd. All Rights Reserved.
 
 // This work is licensed under the MIT License.
 // See LICENSE.TXT for the full text
 
 // Found this example useful?
-// https://www.paypal.me/cyotek
+// https://www.cyotek.com/contribute
+
+using System;
+using System.ComponentModel;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace Cyotek.Windows.Forms
 {
