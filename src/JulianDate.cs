@@ -305,9 +305,16 @@ namespace Cyotek
 
     public static bool TryParse(string s, out JulianDate result)
     {
-      result = !string.IsNullOrEmpty(s)
-        ? JulianDateParser.Parse(s)
-        : JulianDate.Empty;
+      try
+      {
+        result = !string.IsNullOrEmpty(s)
+          ? JulianDateParser.Parse(s)
+          : JulianDate.Empty;
+      }
+      catch
+      {
+        result = JulianDate.Empty;
+      }
 
       return !result.IsEmpty;
     }
