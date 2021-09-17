@@ -155,17 +155,12 @@ namespace Cyotek
 
     public int Day => _day;
 
-    public int DayOfYear
-    {
-      get
-      {
-        return _year > 0 && _month > 0 && _day > 0
-          ? JulianDate.IsLeapYear(_year, _era)
-            ? _daysToMonth366[_month - 1] + _day
-            : _daysToMonth365[_month - 1] + _day
-          : 0;
-      }
-    }
+    public int DayOfYear =>
+      _year > 0 && _month > 0 && _day > 0
+        ? JulianDate.IsLeapYear(_year, _era)
+          ? _daysToMonth366[_month - 1] + _day
+          : _daysToMonth365[_month - 1] + _day
+        : 0;
 
     public JulianEra Era => _era;
 
@@ -174,6 +169,10 @@ namespace Cyotek
     public bool HasMonth => _month > 0;
 
     public bool IsEmpty => _year == 0;
+
+    public bool IsFullyKnown => _day > 0;
+
+    public bool IsPartial => _day == 0 || _month == 0;
 
     public int Month => _month;
 
