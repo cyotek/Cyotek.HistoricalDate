@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31424.327
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cyotek.HistoricalDate.Demo", "Cyotek.HistoricalDate.Demo\Cyotek.HistoricalDate.Demo.csproj", "{AF395B1E-C239-4B25-883B-0071BB5C54B8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cyotek.HistoricalDate.Demo", "demo\Cyotek.HistoricalDate.Demo.csproj", "{AF395B1E-C239-4B25-883B-0071BB5C54B8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cyotek.HistoricalDate", "src\Cyotek.HistoricalDate.csproj", "{2D3F5202-BF27-4E3F-ADB7-F19FE0D00C9E}"
 EndProject
