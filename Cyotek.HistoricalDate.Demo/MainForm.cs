@@ -16,6 +16,12 @@ namespace Cyotek.Demo.Windows.Forms
 {
   internal partial class MainForm : BaseForm
   {
+    #region Private Fields
+
+    private JulianDate _current;
+
+    #endregion Private Fields
+
     #region Public Constructors
 
     public MainForm()
@@ -33,6 +39,13 @@ namespace Cyotek.Demo.Windows.Forms
       this.LoadDefaultDates();
 
       base.OnShown(e);
+
+      this.LoadDateFields((JulianDate)DateTime.UtcNow);
+      this.PerformLeapYearTest();
+      this.PerformAddDays();
+      this.PerformAddMonths();
+      this.PerformAddYears();
+      this.PerformSubtract();
     }
 
     #endregion Protected Methods
@@ -42,6 +55,21 @@ namespace Cyotek.Demo.Windows.Forms
     private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
     {
       AboutDialog.ShowAboutDialog();
+    }
+
+    private void AddDaysButton_Click(object sender, EventArgs e)
+    {
+      this.PerformAddDays();
+    }
+
+    private void AddMonthsButton_Click(object sender, EventArgs e)
+    {
+      this.PerformAddMonths();
+    }
+
+    private void AddYearsButton_Click(object sender, EventArgs e)
+    {
+      this.PerformAddYears();
     }
 
     private void CreateButton_Click(object sender, EventArgs e)
@@ -76,25 +104,22 @@ namespace Cyotek.Demo.Windows.Forms
 
     private void IsLeapYearButton_Click(object sender, EventArgs e)
     {
-      if (!string.IsNullOrEmpty(isLeapYearYearTextBox.Text) && int.TryParse(isLeapYearYearTextBox.Text, out int year))
-      {
-        bool isLeapYear;
-
-        isLeapYear = JulianDate.IsLeapYear(year, isLeapYearEraComboBox.Era);
-
-        this.SetBoolFlag(isLeapYearResultTextBox, isLeapYear);
-      }
-      else
-      {
-        isLeapYearResultTextBox.Text = string.Empty;
-      }
+      this.PerformLeapYearTest();
     }
 
     private void LoadDateFields(JulianDate date)
     {
+      _current = date;
+
+      currentDateToolStripStatusLabel.Text = date.IsEmpty
+        ? "Empty"
+        : date.ToString();
+
       this.SetBoolFlag(isEmptyTextBox, date.IsEmpty);
       this.SetBoolFlag(hasMonthTextBox, date.HasMonth);
       this.SetBoolFlag(hasDayTextBox, date.HasDay);
+      this.SetBoolFlag(isFullyKnownTextBox, date.IsFullyKnown);
+      this.SetBoolFlag(isPartialTextBox, date.IsPartial);
 
       dayTextBox.Text = date.HasDay
         ? date.Day.ToString()
@@ -151,6 +176,62 @@ namespace Cyotek.Demo.Windows.Forms
       this.TryParseDate();
     }
 
+    private void PerformAddDays()
+    {
+      this.WrapAction(() =>
+      {
+        addDaysResultTextBox.Text = int.TryParse(addDaysTextBox.Text, out int days)
+          ? _current.AddDays(days).ToString()
+          : string.Empty;
+      });
+    }
+
+    private void PerformAddMonths()
+    {
+      this.WrapAction(() =>
+      {
+        addMonthsResultTextBox.Text = int.TryParse(addMonthsTextBox.Text, out int months)
+          ? _current.AddMonths(months).ToString()
+          : string.Empty;
+      });
+    }
+
+    private void PerformAddYears()
+    {
+      this.WrapAction(() =>
+      {
+        addYearsResultTextBox.Text = int.TryParse(addYearsTextBox.Text, out int years)
+          ? _current.AddYears(years).ToString()
+          : string.Empty;
+      });
+    }
+
+    private void PerformLeapYearTest()
+    {
+      if (!string.IsNullOrEmpty(isLeapYearYearTextBox.Text) && int.TryParse(isLeapYearYearTextBox.Text, out int year))
+      {
+        bool isLeapYear;
+
+        isLeapYear = JulianDate.IsLeapYear(year, isLeapYearEraComboBox.Era);
+
+        this.SetBoolFlag(isLeapYearResultTextBox, isLeapYear);
+      }
+      else
+      {
+        isLeapYearResultTextBox.Text = string.Empty;
+      }
+    }
+
+    private void PerformSubtract()
+    {
+      this.WrapAction(() =>
+      {
+        subtractResultTextBox.Text = JulianDate.TryParse(subtractTextBox.Text, out JulianDate date)
+          ? (_current - date).ToString()
+          : string.Empty;
+      });
+    }
+
     private void SetBoolFlag(TextBox control, bool flag)
     {
       control.Text = flag
@@ -158,9 +239,14 @@ namespace Cyotek.Demo.Windows.Forms
         : "No";
     }
 
+    private void SubtractButton_Click(object sender, EventArgs e)
+    {
+      this.PerformSubtract();
+    }
+
     private void TryBuildDate()
     {
-      try
+      this.WrapAction(() =>
       {
         JulianDate date;
 
@@ -194,16 +280,12 @@ namespace Cyotek.Demo.Windows.Forms
           : "Invalid date entered";
 
         this.LoadDateFields(date);
-      }
-      catch (Exception ex)
-      {
-        statusToolStripStatusLabel.Text = ex.Message;
-      }
+      });
     }
 
     private void TryParseBinary()
     {
-      try
+      this.WrapAction(() =>
       {
         JulianDate date;
 
@@ -216,16 +298,12 @@ namespace Cyotek.Demo.Windows.Forms
           : "Invalid date entered";
 
         this.LoadDateFields(date);
-      }
-      catch (Exception ex)
-      {
-        statusToolStripStatusLabel.Text = ex.Message;
-      }
+      });
     }
 
     private void TryParseDate()
     {
-      try
+      this.WrapAction(() =>
       {
         JulianDate date;
 
@@ -238,6 +316,14 @@ namespace Cyotek.Demo.Windows.Forms
           : "Invalid date entered";
 
         this.LoadDateFields(date);
+      });
+    }
+
+    private void WrapAction(Action action)
+    {
+      try
+      {
+        action();
       }
       catch (Exception ex)
       {

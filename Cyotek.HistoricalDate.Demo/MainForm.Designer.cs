@@ -41,6 +41,8 @@ namespace Cyotek.Demo.Windows.Forms
       System.Windows.Forms.Label binaryLabel;
       System.Windows.Forms.Label dayOfYearLabel;
       System.Windows.Forms.GroupBox attributesGroupBox;
+      System.Windows.Forms.Label isPartialLabel;
+      System.Windows.Forms.Label isFullyKnownLabel;
       System.Windows.Forms.Label dayLabel;
       System.Windows.Forms.Label monthLabel;
       System.Windows.Forms.Label yearLabel;
@@ -58,6 +60,18 @@ namespace Cyotek.Demo.Windows.Forms
       System.Windows.Forms.Label parseLabel;
       System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
       System.Windows.Forms.Panel panel1;
+      System.Windows.Forms.GroupBox subtractionGroupBox;
+      System.Windows.Forms.Label subtractLabel;
+      System.Windows.Forms.Button subtractButton;
+      System.Windows.Forms.GroupBox addYearsGroupBox;
+      System.Windows.Forms.Button addYearsButton;
+      System.Windows.Forms.Label addYearsLabel;
+      System.Windows.Forms.GroupBox addMonthsGroupBox;
+      System.Windows.Forms.Button addMonthsButton;
+      System.Windows.Forms.Label addMonthsLabel;
+      System.Windows.Forms.GroupBox addDaysGroupBox;
+      System.Windows.Forms.Button addDaysButton;
+      System.Windows.Forms.Label addDaysLabel;
       System.Windows.Forms.GroupBox isLeapYearGroupBox;
       System.Windows.Forms.Button isLeapYearButton;
       System.Windows.Forms.Label label3;
@@ -69,6 +83,8 @@ namespace Cyotek.Demo.Windows.Forms
       System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
       System.Windows.Forms.StatusStrip statusStrip;
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+      this.isPartialTextBox = new System.Windows.Forms.TextBox();
+      this.isFullyKnownTextBox = new System.Windows.Forms.TextBox();
       this.dayTextBox = new System.Windows.Forms.TextBox();
       this.eraTextBox = new System.Windows.Forms.TextBox();
       this.monthTextBox = new System.Windows.Forms.TextBox();
@@ -86,10 +102,19 @@ namespace Cyotek.Demo.Windows.Forms
       this.newEraComboBox = new Cyotek.Demo.Windows.Forms.EraComboBox();
       this.newMonthTextBox = new System.Windows.Forms.TextBox();
       this.newYearTextBox = new System.Windows.Forms.TextBox();
+      this.subtractTextBox = new System.Windows.Forms.TextBox();
+      this.subtractResultTextBox = new System.Windows.Forms.TextBox();
+      this.addYearsResultTextBox = new System.Windows.Forms.TextBox();
+      this.addYearsTextBox = new System.Windows.Forms.TextBox();
+      this.addMonthsResultTextBox = new System.Windows.Forms.TextBox();
+      this.addMonthsTextBox = new System.Windows.Forms.TextBox();
+      this.addDaysResultTextBox = new System.Windows.Forms.TextBox();
+      this.addDaysTextBox = new System.Windows.Forms.TextBox();
       this.isLeapYearResultTextBox = new System.Windows.Forms.TextBox();
       this.isLeapYearYearTextBox = new System.Windows.Forms.TextBox();
       this.isLeapYearEraComboBox = new Cyotek.Demo.Windows.Forms.EraComboBox();
       this.statusToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+      this.currentDateToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
       this.cyotekLinkToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
       newDayLabel = new System.Windows.Forms.Label();
       newMonthLabel = new System.Windows.Forms.Label();
@@ -103,6 +128,8 @@ namespace Cyotek.Demo.Windows.Forms
       binaryLabel = new System.Windows.Forms.Label();
       dayOfYearLabel = new System.Windows.Forms.Label();
       attributesGroupBox = new System.Windows.Forms.GroupBox();
+      isPartialLabel = new System.Windows.Forms.Label();
+      isFullyKnownLabel = new System.Windows.Forms.Label();
       dayLabel = new System.Windows.Forms.Label();
       monthLabel = new System.Windows.Forms.Label();
       yearLabel = new System.Windows.Forms.Label();
@@ -120,6 +147,18 @@ namespace Cyotek.Demo.Windows.Forms
       parseLabel = new System.Windows.Forms.Label();
       tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
       panel1 = new System.Windows.Forms.Panel();
+      subtractionGroupBox = new System.Windows.Forms.GroupBox();
+      subtractLabel = new System.Windows.Forms.Label();
+      subtractButton = new System.Windows.Forms.Button();
+      addYearsGroupBox = new System.Windows.Forms.GroupBox();
+      addYearsButton = new System.Windows.Forms.Button();
+      addYearsLabel = new System.Windows.Forms.Label();
+      addMonthsGroupBox = new System.Windows.Forms.GroupBox();
+      addMonthsButton = new System.Windows.Forms.Button();
+      addMonthsLabel = new System.Windows.Forms.Label();
+      addDaysGroupBox = new System.Windows.Forms.GroupBox();
+      addDaysButton = new System.Windows.Forms.Button();
+      addDaysLabel = new System.Windows.Forms.Label();
       isLeapYearGroupBox = new System.Windows.Forms.GroupBox();
       isLeapYearButton = new System.Windows.Forms.Button();
       label3 = new System.Windows.Forms.Label();
@@ -134,6 +173,10 @@ namespace Cyotek.Demo.Windows.Forms
       createGroupBox.SuspendLayout();
       tableLayoutPanel.SuspendLayout();
       panel1.SuspendLayout();
+      subtractionGroupBox.SuspendLayout();
+      addYearsGroupBox.SuspendLayout();
+      addMonthsGroupBox.SuspendLayout();
+      addDaysGroupBox.SuspendLayout();
       isLeapYearGroupBox.SuspendLayout();
       menuStrip.SuspendLayout();
       statusStrip.SuspendLayout();
@@ -143,7 +186,7 @@ namespace Cyotek.Demo.Windows.Forms
       // 
       newDayLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       newDayLabel.AutoSize = true;
-      newDayLabel.Location = new System.Drawing.Point(3, 417);
+      newDayLabel.Location = new System.Drawing.Point(3, 411);
       newDayLabel.Name = "newDayLabel";
       newDayLabel.Size = new System.Drawing.Size(29, 13);
       newDayLabel.TabIndex = 8;
@@ -153,7 +196,7 @@ namespace Cyotek.Demo.Windows.Forms
       // 
       newMonthLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       newMonthLabel.AutoSize = true;
-      newMonthLabel.Location = new System.Drawing.Point(3, 391);
+      newMonthLabel.Location = new System.Drawing.Point(3, 385);
       newMonthLabel.Name = "newMonthLabel";
       newMonthLabel.Size = new System.Drawing.Size(40, 13);
       newMonthLabel.TabIndex = 6;
@@ -163,7 +206,7 @@ namespace Cyotek.Demo.Windows.Forms
       // 
       newYearLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       newYearLabel.AutoSize = true;
-      newYearLabel.Location = new System.Drawing.Point(3, 365);
+      newYearLabel.Location = new System.Drawing.Point(3, 359);
       newYearLabel.Name = "newYearLabel";
       newYearLabel.Size = new System.Drawing.Size(32, 13);
       newYearLabel.TabIndex = 4;
@@ -173,7 +216,7 @@ namespace Cyotek.Demo.Windows.Forms
       // 
       newEraLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       newEraLabel.AutoSize = true;
-      newEraLabel.Location = new System.Drawing.Point(3, 338);
+      newEraLabel.Location = new System.Drawing.Point(3, 332);
       newEraLabel.Name = "newEraLabel";
       newEraLabel.Size = new System.Drawing.Size(26, 13);
       newEraLabel.TabIndex = 2;
@@ -182,11 +225,11 @@ namespace Cyotek.Demo.Windows.Forms
       // formatLabel
       // 
       formatLabel.AutoSize = true;
-      formatLabel.Location = new System.Drawing.Point(3, 247);
+      formatLabel.Location = new System.Drawing.Point(3, 299);
       formatLabel.Name = "formatLabel";
       formatLabel.Size = new System.Drawing.Size(37, 13);
-      formatLabel.TabIndex = 16;
-      formatLabel.Text = "&String:";
+      formatLabel.TabIndex = 20;
+      formatLabel.Text = "String:";
       // 
       // hasDayLabel
       // 
@@ -227,23 +270,27 @@ namespace Cyotek.Demo.Windows.Forms
       // binaryLabel
       // 
       binaryLabel.AutoSize = true;
-      binaryLabel.Location = new System.Drawing.Point(3, 273);
+      binaryLabel.Location = new System.Drawing.Point(3, 325);
       binaryLabel.Name = "binaryLabel";
       binaryLabel.Size = new System.Drawing.Size(39, 13);
-      binaryLabel.TabIndex = 18;
-      binaryLabel.Text = "&Binary:";
+      binaryLabel.TabIndex = 22;
+      binaryLabel.Text = "Binary:";
       // 
       // dayOfYearLabel
       // 
       dayOfYearLabel.AutoSize = true;
-      dayOfYearLabel.Location = new System.Drawing.Point(3, 212);
+      dayOfYearLabel.Location = new System.Drawing.Point(3, 264);
       dayOfYearLabel.Name = "dayOfYearLabel";
       dayOfYearLabel.Size = new System.Drawing.Size(66, 13);
-      dayOfYearLabel.TabIndex = 14;
-      dayOfYearLabel.Text = "Day &of Year:";
+      dayOfYearLabel.TabIndex = 18;
+      dayOfYearLabel.Text = "Day of Year:";
       // 
       // attributesGroupBox
       // 
+      attributesGroupBox.Controls.Add(isPartialLabel);
+      attributesGroupBox.Controls.Add(isFullyKnownLabel);
+      attributesGroupBox.Controls.Add(this.isPartialTextBox);
+      attributesGroupBox.Controls.Add(this.isFullyKnownTextBox);
       attributesGroupBox.Controls.Add(dayLabel);
       attributesGroupBox.Controls.Add(monthLabel);
       attributesGroupBox.Controls.Add(yearLabel);
@@ -267,165 +314,203 @@ namespace Cyotek.Demo.Windows.Forms
       attributesGroupBox.Controls.Add(this.hasDayTextBox);
       attributesGroupBox.Controls.Add(hasDayLabel);
       attributesGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
-      attributesGroupBox.Location = new System.Drawing.Point(282, 3);
+      attributesGroupBox.Location = new System.Drawing.Point(264, 3);
       attributesGroupBox.Name = "attributesGroupBox";
-      attributesGroupBox.Size = new System.Drawing.Size(273, 515);
+      attributesGroupBox.Size = new System.Drawing.Size(255, 509);
       attributesGroupBox.TabIndex = 1;
       attributesGroupBox.TabStop = false;
-      attributesGroupBox.Text = "Attributes";
+      attributesGroupBox.Text = "&Attributes";
+      // 
+      // isPartialLabel
+      // 
+      isPartialLabel.AutoSize = true;
+      isPartialLabel.Location = new System.Drawing.Point(3, 126);
+      isPartialLabel.Name = "isPartialLabel";
+      isPartialLabel.Size = new System.Drawing.Size(50, 13);
+      isPartialLabel.TabIndex = 8;
+      isPartialLabel.Text = "Is Partial:";
+      // 
+      // isFullyKnownLabel
+      // 
+      isFullyKnownLabel.AutoSize = true;
+      isFullyKnownLabel.Location = new System.Drawing.Point(3, 100);
+      isFullyKnownLabel.Name = "isFullyKnownLabel";
+      isFullyKnownLabel.Size = new System.Drawing.Size(78, 13);
+      isFullyKnownLabel.TabIndex = 6;
+      isFullyKnownLabel.Text = "Is Fully Known:";
+      // 
+      // isPartialTextBox
+      // 
+      this.isPartialTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.isPartialTextBox.Location = new System.Drawing.Point(87, 123);
+      this.isPartialTextBox.Name = "isPartialTextBox";
+      this.isPartialTextBox.ReadOnly = true;
+      this.isPartialTextBox.Size = new System.Drawing.Size(162, 20);
+      this.isPartialTextBox.TabIndex = 9;
+      // 
+      // isFullyKnownTextBox
+      // 
+      this.isFullyKnownTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.isFullyKnownTextBox.Location = new System.Drawing.Point(87, 97);
+      this.isFullyKnownTextBox.Name = "isFullyKnownTextBox";
+      this.isFullyKnownTextBox.ReadOnly = true;
+      this.isFullyKnownTextBox.Size = new System.Drawing.Size(162, 20);
+      this.isFullyKnownTextBox.TabIndex = 7;
       // 
       // dayLabel
       // 
       dayLabel.AutoSize = true;
-      dayLabel.Location = new System.Drawing.Point(3, 186);
+      dayLabel.Location = new System.Drawing.Point(3, 238);
       dayLabel.Name = "dayLabel";
       dayLabel.Size = new System.Drawing.Size(29, 13);
-      dayLabel.TabIndex = 12;
-      dayLabel.Text = "&Day:";
+      dayLabel.TabIndex = 16;
+      dayLabel.Text = "Day:";
       // 
       // monthLabel
       // 
       monthLabel.AutoSize = true;
-      monthLabel.Location = new System.Drawing.Point(3, 160);
+      monthLabel.Location = new System.Drawing.Point(3, 212);
       monthLabel.Name = "monthLabel";
       monthLabel.Size = new System.Drawing.Size(40, 13);
-      monthLabel.TabIndex = 10;
-      monthLabel.Text = "Mo&nth:";
+      monthLabel.TabIndex = 14;
+      monthLabel.Text = "Month:";
       // 
       // yearLabel
       // 
       yearLabel.AutoSize = true;
-      yearLabel.Location = new System.Drawing.Point(3, 134);
+      yearLabel.Location = new System.Drawing.Point(3, 186);
       yearLabel.Name = "yearLabel";
       yearLabel.Size = new System.Drawing.Size(32, 13);
-      yearLabel.TabIndex = 8;
-      yearLabel.Text = "Ye&ar:";
+      yearLabel.TabIndex = 12;
+      yearLabel.Text = "Year:";
       // 
       // dayTextBox
       // 
       this.dayTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.dayTextBox.Location = new System.Drawing.Point(75, 183);
+      this.dayTextBox.Location = new System.Drawing.Point(87, 235);
       this.dayTextBox.Name = "dayTextBox";
       this.dayTextBox.ReadOnly = true;
-      this.dayTextBox.Size = new System.Drawing.Size(192, 20);
-      this.dayTextBox.TabIndex = 13;
+      this.dayTextBox.Size = new System.Drawing.Size(162, 20);
+      this.dayTextBox.TabIndex = 17;
       // 
       // eraLabel
       // 
       eraLabel.AutoSize = true;
-      eraLabel.Location = new System.Drawing.Point(3, 108);
+      eraLabel.Location = new System.Drawing.Point(3, 160);
       eraLabel.Name = "eraLabel";
       eraLabel.Size = new System.Drawing.Size(26, 13);
-      eraLabel.TabIndex = 6;
-      eraLabel.Text = "E&ra:";
+      eraLabel.TabIndex = 10;
+      eraLabel.Text = "Era:";
       // 
       // eraTextBox
       // 
       this.eraTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.eraTextBox.Location = new System.Drawing.Point(75, 105);
+      this.eraTextBox.Location = new System.Drawing.Point(87, 157);
       this.eraTextBox.Name = "eraTextBox";
       this.eraTextBox.ReadOnly = true;
-      this.eraTextBox.Size = new System.Drawing.Size(192, 20);
-      this.eraTextBox.TabIndex = 7;
+      this.eraTextBox.Size = new System.Drawing.Size(162, 20);
+      this.eraTextBox.TabIndex = 11;
       // 
       // monthTextBox
       // 
       this.monthTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.monthTextBox.Location = new System.Drawing.Point(75, 157);
+      this.monthTextBox.Location = new System.Drawing.Point(87, 209);
       this.monthTextBox.Name = "monthTextBox";
       this.monthTextBox.ReadOnly = true;
-      this.monthTextBox.Size = new System.Drawing.Size(192, 20);
-      this.monthTextBox.TabIndex = 11;
+      this.monthTextBox.Size = new System.Drawing.Size(162, 20);
+      this.monthTextBox.TabIndex = 15;
       // 
       // yearTextBox
       // 
       this.yearTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.yearTextBox.Location = new System.Drawing.Point(75, 131);
+      this.yearTextBox.Location = new System.Drawing.Point(87, 183);
       this.yearTextBox.Name = "yearTextBox";
       this.yearTextBox.ReadOnly = true;
-      this.yearTextBox.Size = new System.Drawing.Size(192, 20);
-      this.yearTextBox.TabIndex = 9;
+      this.yearTextBox.Size = new System.Drawing.Size(162, 20);
+      this.yearTextBox.TabIndex = 13;
       // 
       // line2
       // 
       line2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      line2.Location = new System.Drawing.Point(6, 236);
+      line2.Location = new System.Drawing.Point(6, 288);
       line2.Name = "line2";
-      line2.Size = new System.Drawing.Size(261, 2);
+      line2.Size = new System.Drawing.Size(243, 2);
       line2.Text = "line2";
       // 
       // line1
       // 
       line1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      line1.Location = new System.Drawing.Point(6, 97);
+      line1.Location = new System.Drawing.Point(6, 149);
       line1.Name = "line1";
-      line1.Size = new System.Drawing.Size(261, 2);
+      line1.Size = new System.Drawing.Size(243, 2);
       line1.Text = "line1";
       // 
       // binaryTextBox
       // 
       this.binaryTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.binaryTextBox.Location = new System.Drawing.Point(75, 270);
+      this.binaryTextBox.Location = new System.Drawing.Point(87, 322);
       this.binaryTextBox.Name = "binaryTextBox";
       this.binaryTextBox.ReadOnly = true;
-      this.binaryTextBox.Size = new System.Drawing.Size(192, 20);
-      this.binaryTextBox.TabIndex = 19;
+      this.binaryTextBox.Size = new System.Drawing.Size(162, 20);
+      this.binaryTextBox.TabIndex = 23;
       // 
       // isEmptyTextBox
       // 
       this.isEmptyTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.isEmptyTextBox.Location = new System.Drawing.Point(75, 19);
+      this.isEmptyTextBox.Location = new System.Drawing.Point(87, 19);
       this.isEmptyTextBox.Name = "isEmptyTextBox";
       this.isEmptyTextBox.ReadOnly = true;
-      this.isEmptyTextBox.Size = new System.Drawing.Size(192, 20);
+      this.isEmptyTextBox.Size = new System.Drawing.Size(162, 20);
       this.isEmptyTextBox.TabIndex = 1;
       // 
       // dayOfYearTextBox
       // 
       this.dayOfYearTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.dayOfYearTextBox.Location = new System.Drawing.Point(75, 209);
+      this.dayOfYearTextBox.Location = new System.Drawing.Point(87, 261);
       this.dayOfYearTextBox.Name = "dayOfYearTextBox";
       this.dayOfYearTextBox.ReadOnly = true;
-      this.dayOfYearTextBox.Size = new System.Drawing.Size(192, 20);
-      this.dayOfYearTextBox.TabIndex = 15;
+      this.dayOfYearTextBox.Size = new System.Drawing.Size(162, 20);
+      this.dayOfYearTextBox.TabIndex = 19;
       // 
       // formatTextBox
       // 
       this.formatTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.formatTextBox.Location = new System.Drawing.Point(75, 244);
+      this.formatTextBox.Location = new System.Drawing.Point(87, 296);
       this.formatTextBox.Name = "formatTextBox";
       this.formatTextBox.ReadOnly = true;
-      this.formatTextBox.Size = new System.Drawing.Size(192, 20);
-      this.formatTextBox.TabIndex = 17;
+      this.formatTextBox.Size = new System.Drawing.Size(162, 20);
+      this.formatTextBox.TabIndex = 21;
       // 
       // hasMonthTextBox
       // 
       this.hasMonthTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.hasMonthTextBox.Location = new System.Drawing.Point(75, 45);
+      this.hasMonthTextBox.Location = new System.Drawing.Point(87, 45);
       this.hasMonthTextBox.Name = "hasMonthTextBox";
       this.hasMonthTextBox.ReadOnly = true;
-      this.hasMonthTextBox.Size = new System.Drawing.Size(192, 20);
+      this.hasMonthTextBox.Size = new System.Drawing.Size(162, 20);
       this.hasMonthTextBox.TabIndex = 3;
       // 
       // hasDayTextBox
       // 
       this.hasDayTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.hasDayTextBox.Location = new System.Drawing.Point(75, 71);
+      this.hasDayTextBox.Location = new System.Drawing.Point(87, 71);
       this.hasDayTextBox.Name = "hasDayTextBox";
       this.hasDayTextBox.ReadOnly = true;
-      this.hasDayTextBox.Size = new System.Drawing.Size(192, 20);
+      this.hasDayTextBox.Size = new System.Drawing.Size(162, 20);
       this.hasDayTextBox.TabIndex = 5;
       // 
       // createGroupBox
@@ -453,7 +538,7 @@ namespace Cyotek.Demo.Windows.Forms
       createGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
       createGroupBox.Location = new System.Drawing.Point(3, 3);
       createGroupBox.Name = "createGroupBox";
-      createGroupBox.Size = new System.Drawing.Size(273, 515);
+      createGroupBox.Size = new System.Drawing.Size(255, 509);
       createGroupBox.TabIndex = 0;
       createGroupBox.TabStop = false;
       createGroupBox.Text = "Create";
@@ -461,7 +546,7 @@ namespace Cyotek.Demo.Windows.Forms
       // fromBinaryButton
       // 
       fromBinaryButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-      fromBinaryButton.Location = new System.Drawing.Point(192, 486);
+      fromBinaryButton.Location = new System.Drawing.Point(174, 480);
       fromBinaryButton.Name = "fromBinaryButton";
       fromBinaryButton.Size = new System.Drawing.Size(75, 23);
       fromBinaryButton.TabIndex = 16;
@@ -472,7 +557,7 @@ namespace Cyotek.Demo.Windows.Forms
       // parseButton
       // 
       parseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-      parseButton.Location = new System.Drawing.Point(192, 449);
+      parseButton.Location = new System.Drawing.Point(174, 443);
       parseButton.Name = "parseButton";
       parseButton.Size = new System.Drawing.Size(75, 23);
       parseButton.TabIndex = 13;
@@ -483,7 +568,7 @@ namespace Cyotek.Demo.Windows.Forms
       // createButton
       // 
       createButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-      createButton.Location = new System.Drawing.Point(192, 412);
+      createButton.Location = new System.Drawing.Point(174, 406);
       createButton.Name = "createButton";
       createButton.Size = new System.Drawing.Size(75, 23);
       createButton.TabIndex = 10;
@@ -495,9 +580,9 @@ namespace Cyotek.Demo.Windows.Forms
       // 
       this.fromBinaryTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.fromBinaryTextBox.Location = new System.Drawing.Point(49, 488);
+      this.fromBinaryTextBox.Location = new System.Drawing.Point(49, 482);
       this.fromBinaryTextBox.Name = "fromBinaryTextBox";
-      this.fromBinaryTextBox.Size = new System.Drawing.Size(137, 20);
+      this.fromBinaryTextBox.Size = new System.Drawing.Size(119, 20);
       this.fromBinaryTextBox.TabIndex = 15;
       this.fromBinaryTextBox.Text = "214748566720908800";
       // 
@@ -505,7 +590,7 @@ namespace Cyotek.Demo.Windows.Forms
       // 
       fromBinaryLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       fromBinaryLabel.AutoSize = true;
-      fromBinaryLabel.Location = new System.Drawing.Point(3, 491);
+      fromBinaryLabel.Location = new System.Drawing.Point(3, 485);
       fromBinaryLabel.Name = "fromBinaryLabel";
       fromBinaryLabel.Size = new System.Drawing.Size(39, 13);
       fromBinaryLabel.TabIndex = 14;
@@ -515,34 +600,34 @@ namespace Cyotek.Demo.Windows.Forms
       // 
       line5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      line5.Location = new System.Drawing.Point(6, 478);
+      line5.Location = new System.Drawing.Point(6, 472);
       line5.Name = "line5";
-      line5.Size = new System.Drawing.Size(261, 2);
+      line5.Size = new System.Drawing.Size(243, 2);
       line5.Text = "line5";
       // 
       // line4
       // 
       line4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      line4.Location = new System.Drawing.Point(6, 441);
+      line4.Location = new System.Drawing.Point(6, 435);
       line4.Name = "line4";
-      line4.Size = new System.Drawing.Size(261, 2);
+      line4.Size = new System.Drawing.Size(243, 2);
       line4.Text = "line4";
       // 
       // line3
       // 
       line3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      line3.Location = new System.Drawing.Point(6, 327);
+      line3.Location = new System.Drawing.Point(6, 321);
       line3.Name = "line3";
-      line3.Size = new System.Drawing.Size(261, 2);
+      line3.Size = new System.Drawing.Size(243, 2);
       line3.Text = "line3";
       // 
       // parseLabel
       // 
       parseLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       parseLabel.AutoSize = true;
-      parseLabel.Location = new System.Drawing.Point(3, 454);
+      parseLabel.Location = new System.Drawing.Point(3, 448);
       parseLabel.Name = "parseLabel";
       parseLabel.Size = new System.Drawing.Size(37, 13);
       parseLabel.TabIndex = 11;
@@ -552,9 +637,9 @@ namespace Cyotek.Demo.Windows.Forms
       // 
       this.parseTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.parseTextBox.Location = new System.Drawing.Point(49, 451);
+      this.parseTextBox.Location = new System.Drawing.Point(49, 445);
       this.parseTextBox.Name = "parseTextBox";
-      this.parseTextBox.Size = new System.Drawing.Size(137, 20);
+      this.parseTextBox.Size = new System.Drawing.Size(119, 20);
       this.parseTextBox.TabIndex = 12;
       this.parseTextBox.Text = "2021-08-30";
       // 
@@ -567,7 +652,7 @@ namespace Cyotek.Demo.Windows.Forms
       this.datesListBox.IntegralHeight = false;
       this.datesListBox.Location = new System.Drawing.Point(6, 32);
       this.datesListBox.Name = "datesListBox";
-      this.datesListBox.Size = new System.Drawing.Size(261, 289);
+      this.datesListBox.Size = new System.Drawing.Size(243, 283);
       this.datesListBox.TabIndex = 1;
       this.datesListBox.SelectedIndexChanged += new System.EventHandler(this.DatesListBox_SelectedIndexChanged);
       // 
@@ -575,36 +660,36 @@ namespace Cyotek.Demo.Windows.Forms
       // 
       this.newDayTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.newDayTextBox.Location = new System.Drawing.Point(49, 414);
+      this.newDayTextBox.Location = new System.Drawing.Point(49, 408);
       this.newDayTextBox.Name = "newDayTextBox";
-      this.newDayTextBox.Size = new System.Drawing.Size(137, 20);
+      this.newDayTextBox.Size = new System.Drawing.Size(119, 20);
       this.newDayTextBox.TabIndex = 9;
       // 
       // newEraComboBox
       // 
       this.newEraComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.newEraComboBox.Location = new System.Drawing.Point(49, 335);
+      this.newEraComboBox.Location = new System.Drawing.Point(49, 329);
       this.newEraComboBox.Name = "newEraComboBox";
-      this.newEraComboBox.Size = new System.Drawing.Size(137, 21);
+      this.newEraComboBox.Size = new System.Drawing.Size(119, 21);
       this.newEraComboBox.TabIndex = 3;
       // 
       // newMonthTextBox
       // 
       this.newMonthTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.newMonthTextBox.Location = new System.Drawing.Point(49, 388);
+      this.newMonthTextBox.Location = new System.Drawing.Point(49, 382);
       this.newMonthTextBox.Name = "newMonthTextBox";
-      this.newMonthTextBox.Size = new System.Drawing.Size(137, 20);
+      this.newMonthTextBox.Size = new System.Drawing.Size(119, 20);
       this.newMonthTextBox.TabIndex = 7;
       // 
       // newYearTextBox
       // 
       this.newYearTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.newYearTextBox.Location = new System.Drawing.Point(49, 362);
+      this.newYearTextBox.Location = new System.Drawing.Point(49, 356);
       this.newYearTextBox.Name = "newYearTextBox";
-      this.newYearTextBox.Size = new System.Drawing.Size(137, 20);
+      this.newYearTextBox.Size = new System.Drawing.Size(119, 20);
       this.newYearTextBox.TabIndex = 5;
       // 
       // tableLayoutPanel
@@ -621,18 +706,238 @@ namespace Cyotek.Demo.Windows.Forms
       tableLayoutPanel.Name = "tableLayoutPanel";
       tableLayoutPanel.RowCount = 1;
       tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-      tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 521F));
-      tableLayoutPanel.Size = new System.Drawing.Size(837, 521);
+      tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 515F));
+      tableLayoutPanel.Size = new System.Drawing.Size(784, 515);
       tableLayoutPanel.TabIndex = 1;
       // 
       // panel1
       // 
+      panel1.Controls.Add(subtractionGroupBox);
+      panel1.Controls.Add(addYearsGroupBox);
+      panel1.Controls.Add(addMonthsGroupBox);
+      panel1.Controls.Add(addDaysGroupBox);
       panel1.Controls.Add(isLeapYearGroupBox);
       panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-      panel1.Location = new System.Drawing.Point(561, 3);
+      panel1.Location = new System.Drawing.Point(525, 3);
       panel1.Name = "panel1";
-      panel1.Size = new System.Drawing.Size(273, 515);
+      panel1.Size = new System.Drawing.Size(256, 509);
       panel1.TabIndex = 2;
+      // 
+      // subtractionGroupBox
+      // 
+      subtractionGroupBox.Controls.Add(subtractLabel);
+      subtractionGroupBox.Controls.Add(subtractButton);
+      subtractionGroupBox.Controls.Add(this.subtractTextBox);
+      subtractionGroupBox.Controls.Add(this.subtractResultTextBox);
+      subtractionGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
+      subtractionGroupBox.Location = new System.Drawing.Point(0, 324);
+      subtractionGroupBox.Name = "subtractionGroupBox";
+      subtractionGroupBox.Size = new System.Drawing.Size(256, 76);
+      subtractionGroupBox.TabIndex = 4;
+      subtractionGroupBox.TabStop = false;
+      subtractionGroupBox.Text = "&Subtraction";
+      // 
+      // subtractLabel
+      // 
+      subtractLabel.AutoSize = true;
+      subtractLabel.Location = new System.Drawing.Point(6, 24);
+      subtractLabel.Name = "subtractLabel";
+      subtractLabel.Size = new System.Drawing.Size(33, 13);
+      subtractLabel.TabIndex = 0;
+      subtractLabel.Text = "Date:";
+      // 
+      // subtractButton
+      // 
+      subtractButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      subtractButton.Location = new System.Drawing.Point(175, 19);
+      subtractButton.Name = "subtractButton";
+      subtractButton.Size = new System.Drawing.Size(75, 23);
+      subtractButton.TabIndex = 2;
+      subtractButton.Text = "Subtract";
+      subtractButton.UseVisualStyleBackColor = true;
+      subtractButton.Click += new System.EventHandler(this.SubtractButton_Click);
+      // 
+      // subtractTextBox
+      // 
+      this.subtractTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.subtractTextBox.Location = new System.Drawing.Point(75, 19);
+      this.subtractTextBox.Name = "subtractTextBox";
+      this.subtractTextBox.Size = new System.Drawing.Size(94, 20);
+      this.subtractTextBox.TabIndex = 1;
+      this.subtractTextBox.Text = "2021-09-17";
+      // 
+      // subtractResultTextBox
+      // 
+      this.subtractResultTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.subtractResultTextBox.Location = new System.Drawing.Point(75, 45);
+      this.subtractResultTextBox.Name = "subtractResultTextBox";
+      this.subtractResultTextBox.ReadOnly = true;
+      this.subtractResultTextBox.Size = new System.Drawing.Size(175, 20);
+      this.subtractResultTextBox.TabIndex = 3;
+      // 
+      // addYearsGroupBox
+      // 
+      addYearsGroupBox.Controls.Add(addYearsButton);
+      addYearsGroupBox.Controls.Add(addYearsLabel);
+      addYearsGroupBox.Controls.Add(this.addYearsResultTextBox);
+      addYearsGroupBox.Controls.Add(this.addYearsTextBox);
+      addYearsGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
+      addYearsGroupBox.Location = new System.Drawing.Point(0, 248);
+      addYearsGroupBox.Name = "addYearsGroupBox";
+      addYearsGroupBox.Size = new System.Drawing.Size(256, 76);
+      addYearsGroupBox.TabIndex = 3;
+      addYearsGroupBox.TabStop = false;
+      addYearsGroupBox.Text = "AddYea&rs:";
+      // 
+      // addYearsButton
+      // 
+      addYearsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      addYearsButton.Location = new System.Drawing.Point(172, 17);
+      addYearsButton.Name = "addYearsButton";
+      addYearsButton.Size = new System.Drawing.Size(75, 23);
+      addYearsButton.TabIndex = 2;
+      addYearsButton.Text = "Add";
+      addYearsButton.UseVisualStyleBackColor = true;
+      addYearsButton.Click += new System.EventHandler(this.AddYearsButton_Click);
+      // 
+      // addYearsLabel
+      // 
+      addYearsLabel.AutoSize = true;
+      addYearsLabel.Location = new System.Drawing.Point(3, 22);
+      addYearsLabel.Name = "addYearsLabel";
+      addYearsLabel.Size = new System.Drawing.Size(37, 13);
+      addYearsLabel.TabIndex = 0;
+      addYearsLabel.Text = "Years:";
+      // 
+      // addYearsResultTextBox
+      // 
+      this.addYearsResultTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.addYearsResultTextBox.Location = new System.Drawing.Point(72, 45);
+      this.addYearsResultTextBox.Name = "addYearsResultTextBox";
+      this.addYearsResultTextBox.ReadOnly = true;
+      this.addYearsResultTextBox.Size = new System.Drawing.Size(175, 20);
+      this.addYearsResultTextBox.TabIndex = 3;
+      // 
+      // addYearsTextBox
+      // 
+      this.addYearsTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.addYearsTextBox.Location = new System.Drawing.Point(72, 19);
+      this.addYearsTextBox.Name = "addYearsTextBox";
+      this.addYearsTextBox.Size = new System.Drawing.Size(94, 20);
+      this.addYearsTextBox.TabIndex = 1;
+      this.addYearsTextBox.Text = "100";
+      // 
+      // addMonthsGroupBox
+      // 
+      addMonthsGroupBox.Controls.Add(this.addMonthsResultTextBox);
+      addMonthsGroupBox.Controls.Add(addMonthsButton);
+      addMonthsGroupBox.Controls.Add(this.addMonthsTextBox);
+      addMonthsGroupBox.Controls.Add(addMonthsLabel);
+      addMonthsGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
+      addMonthsGroupBox.Location = new System.Drawing.Point(0, 172);
+      addMonthsGroupBox.Name = "addMonthsGroupBox";
+      addMonthsGroupBox.Size = new System.Drawing.Size(256, 76);
+      addMonthsGroupBox.TabIndex = 2;
+      addMonthsGroupBox.TabStop = false;
+      addMonthsGroupBox.Text = "AddM&onths";
+      // 
+      // addMonthsResultTextBox
+      // 
+      this.addMonthsResultTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.addMonthsResultTextBox.Location = new System.Drawing.Point(72, 45);
+      this.addMonthsResultTextBox.Name = "addMonthsResultTextBox";
+      this.addMonthsResultTextBox.ReadOnly = true;
+      this.addMonthsResultTextBox.Size = new System.Drawing.Size(175, 20);
+      this.addMonthsResultTextBox.TabIndex = 3;
+      // 
+      // addMonthsButton
+      // 
+      addMonthsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      addMonthsButton.Location = new System.Drawing.Point(172, 17);
+      addMonthsButton.Name = "addMonthsButton";
+      addMonthsButton.Size = new System.Drawing.Size(75, 23);
+      addMonthsButton.TabIndex = 2;
+      addMonthsButton.Text = "Add";
+      addMonthsButton.UseVisualStyleBackColor = true;
+      addMonthsButton.Click += new System.EventHandler(this.AddMonthsButton_Click);
+      // 
+      // addMonthsTextBox
+      // 
+      this.addMonthsTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.addMonthsTextBox.Location = new System.Drawing.Point(72, 19);
+      this.addMonthsTextBox.Name = "addMonthsTextBox";
+      this.addMonthsTextBox.Size = new System.Drawing.Size(94, 20);
+      this.addMonthsTextBox.TabIndex = 1;
+      this.addMonthsTextBox.Text = "24";
+      // 
+      // addMonthsLabel
+      // 
+      addMonthsLabel.AutoSize = true;
+      addMonthsLabel.Location = new System.Drawing.Point(6, 22);
+      addMonthsLabel.Name = "addMonthsLabel";
+      addMonthsLabel.Size = new System.Drawing.Size(45, 13);
+      addMonthsLabel.TabIndex = 0;
+      addMonthsLabel.Text = "Months:";
+      // 
+      // addDaysGroupBox
+      // 
+      addDaysGroupBox.Controls.Add(this.addDaysResultTextBox);
+      addDaysGroupBox.Controls.Add(addDaysButton);
+      addDaysGroupBox.Controls.Add(addDaysLabel);
+      addDaysGroupBox.Controls.Add(this.addDaysTextBox);
+      addDaysGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
+      addDaysGroupBox.Location = new System.Drawing.Point(0, 96);
+      addDaysGroupBox.Name = "addDaysGroupBox";
+      addDaysGroupBox.Size = new System.Drawing.Size(256, 76);
+      addDaysGroupBox.TabIndex = 1;
+      addDaysGroupBox.TabStop = false;
+      addDaysGroupBox.Text = "AddDay&s:";
+      // 
+      // addDaysResultTextBox
+      // 
+      this.addDaysResultTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.addDaysResultTextBox.Location = new System.Drawing.Point(75, 47);
+      this.addDaysResultTextBox.Name = "addDaysResultTextBox";
+      this.addDaysResultTextBox.ReadOnly = true;
+      this.addDaysResultTextBox.Size = new System.Drawing.Size(175, 20);
+      this.addDaysResultTextBox.TabIndex = 3;
+      // 
+      // addDaysButton
+      // 
+      addDaysButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      addDaysButton.Location = new System.Drawing.Point(175, 19);
+      addDaysButton.Name = "addDaysButton";
+      addDaysButton.Size = new System.Drawing.Size(75, 23);
+      addDaysButton.TabIndex = 2;
+      addDaysButton.Text = "Add";
+      addDaysButton.UseVisualStyleBackColor = true;
+      addDaysButton.Click += new System.EventHandler(this.AddDaysButton_Click);
+      // 
+      // addDaysLabel
+      // 
+      addDaysLabel.AutoSize = true;
+      addDaysLabel.Location = new System.Drawing.Point(6, 24);
+      addDaysLabel.Name = "addDaysLabel";
+      addDaysLabel.Size = new System.Drawing.Size(34, 13);
+      addDaysLabel.TabIndex = 0;
+      addDaysLabel.Text = "Days:";
+      // 
+      // addDaysTextBox
+      // 
+      this.addDaysTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.addDaysTextBox.Location = new System.Drawing.Point(75, 21);
+      this.addDaysTextBox.Name = "addDaysTextBox";
+      this.addDaysTextBox.Size = new System.Drawing.Size(94, 20);
+      this.addDaysTextBox.TabIndex = 1;
+      this.addDaysTextBox.Text = "28";
       // 
       // isLeapYearGroupBox
       // 
@@ -645,7 +950,7 @@ namespace Cyotek.Demo.Windows.Forms
       isLeapYearGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
       isLeapYearGroupBox.Location = new System.Drawing.Point(0, 0);
       isLeapYearGroupBox.Name = "isLeapYearGroupBox";
-      isLeapYearGroupBox.Size = new System.Drawing.Size(273, 125);
+      isLeapYearGroupBox.Size = new System.Drawing.Size(256, 96);
       isLeapYearGroupBox.TabIndex = 0;
       isLeapYearGroupBox.TabStop = false;
       isLeapYearGroupBox.Text = "&IsLeapYear";
@@ -657,16 +962,16 @@ namespace Cyotek.Demo.Windows.Forms
       this.isLeapYearResultTextBox.Location = new System.Drawing.Point(75, 66);
       this.isLeapYearResultTextBox.Name = "isLeapYearResultTextBox";
       this.isLeapYearResultTextBox.ReadOnly = true;
-      this.isLeapYearResultTextBox.Size = new System.Drawing.Size(192, 20);
-      this.isLeapYearResultTextBox.TabIndex = 19;
+      this.isLeapYearResultTextBox.Size = new System.Drawing.Size(175, 20);
+      this.isLeapYearResultTextBox.TabIndex = 5;
       // 
       // isLeapYearButton
       // 
       isLeapYearButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      isLeapYearButton.Location = new System.Drawing.Point(192, 92);
+      isLeapYearButton.Location = new System.Drawing.Point(175, 38);
       isLeapYearButton.Name = "isLeapYearButton";
       isLeapYearButton.Size = new System.Drawing.Size(75, 23);
-      isLeapYearButton.TabIndex = 17;
+      isLeapYearButton.TabIndex = 4;
       isLeapYearButton.Text = "Test";
       isLeapYearButton.UseVisualStyleBackColor = true;
       isLeapYearButton.Click += new System.EventHandler(this.IsLeapYearButton_Click);
@@ -677,8 +982,8 @@ namespace Cyotek.Demo.Windows.Forms
       label3.Location = new System.Drawing.Point(6, 43);
       label3.Name = "label3";
       label3.Size = new System.Drawing.Size(32, 13);
-      label3.TabIndex = 10;
-      label3.Text = "&Year:";
+      label3.TabIndex = 2;
+      label3.Text = "Year:";
       // 
       // isLeapYearYearTextBox
       // 
@@ -686,8 +991,8 @@ namespace Cyotek.Demo.Windows.Forms
             | System.Windows.Forms.AnchorStyles.Right)));
       this.isLeapYearYearTextBox.Location = new System.Drawing.Point(75, 40);
       this.isLeapYearYearTextBox.Name = "isLeapYearYearTextBox";
-      this.isLeapYearYearTextBox.Size = new System.Drawing.Size(192, 20);
-      this.isLeapYearYearTextBox.TabIndex = 11;
+      this.isLeapYearYearTextBox.Size = new System.Drawing.Size(94, 20);
+      this.isLeapYearYearTextBox.TabIndex = 3;
       this.isLeapYearYearTextBox.Text = "42";
       // 
       // isLeapYearEraComboBox
@@ -696,8 +1001,8 @@ namespace Cyotek.Demo.Windows.Forms
             | System.Windows.Forms.AnchorStyles.Right)));
       this.isLeapYearEraComboBox.Location = new System.Drawing.Point(75, 13);
       this.isLeapYearEraComboBox.Name = "isLeapYearEraComboBox";
-      this.isLeapYearEraComboBox.Size = new System.Drawing.Size(192, 21);
-      this.isLeapYearEraComboBox.TabIndex = 8;
+      this.isLeapYearEraComboBox.Size = new System.Drawing.Size(94, 21);
+      this.isLeapYearEraComboBox.TabIndex = 1;
       // 
       // label1
       // 
@@ -705,8 +1010,8 @@ namespace Cyotek.Demo.Windows.Forms
       label1.Location = new System.Drawing.Point(6, 16);
       label1.Name = "label1";
       label1.Size = new System.Drawing.Size(26, 13);
-      label1.TabIndex = 7;
-      label1.Text = "E&ra:";
+      label1.TabIndex = 0;
+      label1.Text = "Era:";
       // 
       // menuStrip
       // 
@@ -715,7 +1020,7 @@ namespace Cyotek.Demo.Windows.Forms
             helpToolStripMenuItem});
       menuStrip.Location = new System.Drawing.Point(0, 0);
       menuStrip.Name = "menuStrip";
-      menuStrip.Size = new System.Drawing.Size(837, 24);
+      menuStrip.Size = new System.Drawing.Size(784, 24);
       menuStrip.TabIndex = 0;
       // 
       // fileToolStripMenuItem
@@ -753,18 +1058,24 @@ namespace Cyotek.Demo.Windows.Forms
       // 
       statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusToolStripStatusLabel,
+            this.currentDateToolStripStatusLabel,
             this.cyotekLinkToolStripStatusLabel});
-      statusStrip.Location = new System.Drawing.Point(0, 545);
+      statusStrip.Location = new System.Drawing.Point(0, 539);
       statusStrip.Name = "statusStrip";
-      statusStrip.Size = new System.Drawing.Size(837, 22);
+      statusStrip.Size = new System.Drawing.Size(784, 22);
       statusStrip.TabIndex = 2;
       // 
       // statusToolStripStatusLabel
       // 
       this.statusToolStripStatusLabel.Name = "statusToolStripStatusLabel";
-      this.statusToolStripStatusLabel.Size = new System.Drawing.Size(723, 17);
+      this.statusToolStripStatusLabel.Size = new System.Drawing.Size(670, 17);
       this.statusToolStripStatusLabel.Spring = true;
       this.statusToolStripStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+      // 
+      // currentDateToolStripStatusLabel
+      // 
+      this.currentDateToolStripStatusLabel.Name = "currentDateToolStripStatusLabel";
+      this.currentDateToolStripStatusLabel.Size = new System.Drawing.Size(0, 17);
       // 
       // cyotekLinkToolStripStatusLabel
       // 
@@ -778,7 +1089,7 @@ namespace Cyotek.Demo.Windows.Forms
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(837, 567);
+      this.ClientSize = new System.Drawing.Size(784, 561);
       this.Controls.Add(tableLayoutPanel);
       this.Controls.Add(statusStrip);
       this.Controls.Add(menuStrip);
@@ -796,6 +1107,14 @@ namespace Cyotek.Demo.Windows.Forms
       createGroupBox.PerformLayout();
       tableLayoutPanel.ResumeLayout(false);
       panel1.ResumeLayout(false);
+      subtractionGroupBox.ResumeLayout(false);
+      subtractionGroupBox.PerformLayout();
+      addYearsGroupBox.ResumeLayout(false);
+      addYearsGroupBox.PerformLayout();
+      addMonthsGroupBox.ResumeLayout(false);
+      addMonthsGroupBox.PerformLayout();
+      addDaysGroupBox.ResumeLayout(false);
+      addDaysGroupBox.PerformLayout();
       isLeapYearGroupBox.ResumeLayout(false);
       isLeapYearGroupBox.PerformLayout();
       menuStrip.ResumeLayout(false);
@@ -831,6 +1150,17 @@ namespace Cyotek.Demo.Windows.Forms
     private Cyotek.Demo.Windows.Forms.EraComboBox isLeapYearEraComboBox;
     private System.Windows.Forms.TextBox isLeapYearYearTextBox;
     private System.Windows.Forms.TextBox isLeapYearResultTextBox;
+    private System.Windows.Forms.TextBox isPartialTextBox;
+    private System.Windows.Forms.TextBox isFullyKnownTextBox;
+    private System.Windows.Forms.TextBox addDaysResultTextBox;
+    private System.Windows.Forms.TextBox addDaysTextBox;
+    private System.Windows.Forms.TextBox addYearsTextBox;
+    private System.Windows.Forms.TextBox addMonthsTextBox;
+    private System.Windows.Forms.TextBox subtractTextBox;
+    private System.Windows.Forms.TextBox subtractResultTextBox;
+    private System.Windows.Forms.TextBox addYearsResultTextBox;
+    private System.Windows.Forms.TextBox addMonthsResultTextBox;
+    private System.Windows.Forms.ToolStripStatusLabel currentDateToolStripStatusLabel;
   }
 }
 
