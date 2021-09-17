@@ -227,7 +227,7 @@ namespace Cyotek.Demo.Windows.Forms
       this.WrapAction(() =>
       {
         subtractResultTextBox.Text = JulianDate.TryParse(subtractTextBox.Text, out JulianDate date)
-          ? (_current - date).ToString()
+          ? (date - _current).ToString()
           : string.Empty;
       });
     }
