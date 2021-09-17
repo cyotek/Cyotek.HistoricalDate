@@ -210,6 +210,8 @@ namespace Cyotek
       return days[month] - days[month - 1];
     }
 
+    public static explicit operator JulianDate(DateTime d) => new JulianDate(d.Year, d.Month, d.Day, JulianEra.Ad);
+
     public static JulianDate FromBinary(long ticks)
     {
       JulianDate result;
