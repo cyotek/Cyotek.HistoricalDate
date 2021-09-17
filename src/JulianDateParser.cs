@@ -196,11 +196,7 @@ namespace Cyotek
     {
       if (!JulianDateParser.TryGetInt(s, out month))
       {
-        DateTimeFormatInfo format;
-
-        format = DateTimeFormatInfo.InvariantInfo;
-
-        if (!JulianDateParser.TryGetMonth(s, format, out month))
+        if (!JulianDateParser.TryGetMonth(s, DateTimeFormatInfo.InvariantInfo, out month))
         {
           JulianDateParser.TryGetMonth(s, DateTimeFormatInfo.CurrentInfo, out month);
         }
